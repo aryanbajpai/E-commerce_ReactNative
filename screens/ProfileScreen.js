@@ -6,17 +6,36 @@ import {
   SafeAreaView,
   Image,
   View,
+  TouchableOpacity,
 } from "react-native";
 
 const profilePic = require("../assets/profilrPic.png");
 
-export default function ProfileScreen({ route }) {
-  const { name, username, password } = route.params || {};
+export default function ProfileScreen({
+  name,
+  username,
+  password,
+  navigation,
+  gender,
+  onLogOut,
+}) {
 
   return (
     <ScrollView style={styles.container}>
       <SafeAreaView>
-        <Text style={styles.topic}>{name}</Text>
+      <View
+          style={{
+            marginVertical: 14,
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Text style={styles.topic}> {name}</Text>
+          <TouchableOpacity style={styles.btn} onPress={onLogOut}>
+            <Text style={styles.btnText}>Log Out</Text>
+          </TouchableOpacity>
+        </View>
 
         <View
           style={{
@@ -31,6 +50,7 @@ export default function ProfileScreen({ route }) {
 
         <View style={styles.userDetails}>
           <Text style={styles.userDetailsText}>Username: <Text style={{color: '#f1aa9b'}}>{username}</Text></Text>
+          <Text style={styles.userDetailsText}>Gender: <Text style={{color: '#f1aa9b'}}>{gender}</Text></Text>
           <Text style={styles.userDetailsText}>Password: <Text style={{color: '#f1aa9b'}}>{password}</Text></Text>
         </View>
       </SafeAreaView>
@@ -69,5 +89,16 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "bold", // Use 'bold' or numeric values
     color: '#f0c38e'
+  },
+  btn: {
+    backgroundColor: "#312c51", // Background color of the button
+    padding: 8,
+    borderRadius: 5,
+    alignItems: "center",
+  },
+  btnText: {
+    color: "#f0c38e",
+    fontSize: 19,
+    fontWeight: "bold",
   },
 });
