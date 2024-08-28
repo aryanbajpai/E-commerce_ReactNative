@@ -17,15 +17,18 @@ export default function Prdtdetails({ route }) {
       <ScrollView style={styles.container}>
         <Text style={styles.topic}>Product Details</Text>
         <View style={styles.detailsContainer}>
-          <View style={{flexDirection: 'row', justifyContent: 'center',}}>
+          <View style={{ flexDirection: "row", justifyContent: "center" }}>
             <Image source={item.img} style={styles.image} />
           </View>
-          <Text style={styles.prdtTitle}>{item.prdtName}</Text>
-          <Text style={styles.prdtDesc}>{item.desc}</Text>
-          <Text style={styles.price}>
-            ₹{item.price}{" "}
-            <Text style={styles.discount}>({item.discountPerc}% OFF)</Text>
-          </Text>
+
+          <View style={{backgroundColor: '#312c51', borderRadius: 9, paddingHorizontal: 12, paddingVertical: 10, borderWidth: 1, borderColor: '#f3f3f3' }}>
+            <Text style={styles.prdtTitle}>{item.prdtName}</Text>
+            <Text style={styles.prdtDesc}>{item.desc}</Text>
+            <Text style={styles.price}>
+              ₹{item.price}{" "}
+              <Text style={styles.discount}>({item.discountPerc}% OFF)</Text>
+            </Text>
+          </View>
         </View>
       </ScrollView>
 
@@ -46,14 +49,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 16,
-    backgroundColor: "#fff",
+    backgroundColor: "#48426d",
     position: "relative",
   },
   topic: {
     fontSize: 23,
     fontWeight: "bold",
     marginVertical: 10,
-    color: "#3f3f3f",
+    color: "#fff",
     textAlign: "center",
   },
   detailsContainer: {
@@ -69,20 +72,22 @@ const styles = StyleSheet.create({
   prdtTitle: {
     fontSize: 24,
     fontWeight: "bold",
+    color: '#f0c38e',
+    fontStyle: 'italic',
   },
   prdtDesc: {
-    fontSize: 16,
-    color: "gray",
+    fontSize: 17,
+    color: "darkgray",
     fontStyle: "italic",
   },
   price: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#3f3f3f",
+    color: "#f0f0f0",
   },
   discount: {
     fontSize: 16,
-    color: "green",
+    color: "lightgreen",
   },
   button: {
     flexDirection: "row",
@@ -94,7 +99,7 @@ const styles = StyleSheet.create({
   },
   buy: {
     width: "50%",
-    backgroundColor: "orange",
+    backgroundColor: "#f0c38e",
   },
   commonText: {
     fontSize: 22,

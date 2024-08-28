@@ -136,13 +136,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     backgroundColor: "#48426d",
   },
-  topic: {
-    fontSize: 23,
-    fontWeight: "bold",
-    marginVertical: 10,
-    color: "white",
-    textAlign: "center",
-  },
   formContainer: {
     paddingHorizontal: 16,
     borderWidth: 1,

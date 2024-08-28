@@ -145,9 +145,9 @@ export default function App() {
         screenOptions={{
           //for all the screens
           headerStyle: {
-            backgroundColor: "#106ad2",
+            backgroundColor: "#312c51",
           },
-          headerTintColor: "#88ffff",
+          headerTintColor: "#f0c38e",
           headerTitleStyle: { fontWeight: "bold", fontSize: 27 },
           contentStyle: {
             backgroundColor: "#df643f",

@@ -70,7 +70,7 @@ export default function LogInScreen({ onLogIn, navigation }) {
             New to this?
           </Text>
           <Pressable onPress={() => navigation.navigate("SignIn")}>
-            <Text style={[styles.label, { color: "midnightblue" }]}>Sign In</Text>
+            <Text style={[styles.label, { color: "lightblue" }]}>Sign In</Text>
           </Pressable>
         </View>
       </SafeAreaView>
@@ -82,16 +82,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 16,
-    backgroundColor: "#fff",
+    backgroundColor: "#48426d",
   },
   formContainer: {
     paddingHorizontal: 16,
-    borderWidth: 1,
-    borderColor: "#106ad2",
     marginVertical: 16,
     borderRadius: 10,
-    backgroundColor: "#fff",
+    backgroundColor: "#312c51",
     paddingBottom: 10,
+    borderWidth: 1,
+    borderColor: '#f5f5f5'
   },
   commonInput: {
     width: "100%",
@@ -99,28 +99,27 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 20,
-    color: "#3f3f3f",
+    color: "#fff",
   },
   inputField: {
     fontSize: 19,
     paddingVertical: 3,
     paddingHorizontal: 10,
     color: "#fff",
-    backgroundColor: "#106ad2",
+    backgroundColor: "#48426d",
     height: 50,
     borderRadius: 10,
   },
   btn: {
-    backgroundColor: "#88ffff", // Background color of the button
+    backgroundColor: "#f0c38e", // Background color of the button
     padding: 8,
     borderRadius: 5,
     alignItems: "center",
     marginBottom: 16,
     borderWidth: 1,
-    borderColor: '#106ad2'
   },
   btnText: {
-    color: "#106ad2",
+    color: "#312c51",
     fontSize: 21,
     fontWeight: "bold",
   },

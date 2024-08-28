@@ -18,10 +18,10 @@ export default function HomeScreen({ name }) {
 
         <SearchBar
           placeholder="Search here..."
-          containerStyle={{ backgroundColor: "#fff", borderColor: '#fff' }}
-          inputContainerStyle={{backgroundColor: '#fff', borderWidth: 1,}}
+          containerStyle={{ backgroundColor: "#48426d", borderColor: '#48426d' }}
+          inputContainerStyle={{backgroundColor: '#312c51'}}
           inputStyle={{color: 'white'}}
-          placeholderTextColor={{color: '#48426d'}}
+          placeholderTextColor={{color: '#fff'}}
           round
           value={searchValue}
           onChangeText={setSearchValue}
@@ -37,12 +37,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 16,
-    backgroundColor: "#fff",
+    backgroundColor: "#48426d",
   },
   topic: {
     fontSize: 25,
     fontWeight: "bold",
     marginVertical: 10,
-    color: "#2f2f2f",
+    color: "#fff",
   },
 });
