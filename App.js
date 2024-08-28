@@ -7,6 +7,8 @@ import ProfileScreen from "./screens/ProfileScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
 import { Pressable, Text, Image, Alert } from "react-native";
 import LogInScreen from "./screens/LogInScreen";
+import PrdtCards from "./components/PrdtCards";
+import Prdtdetails from "./components/PrdtDetails";
 
 const maleProfile = require("./assets/male.png");
 const femaleProfile = require("./assets/female.png");
@@ -24,7 +26,7 @@ export default function App() {
   useEffect(() => {
     // Check authentication status on startup
     const checkAuthStatus = async () => {
-      try {        
+      try {
         const signedIn = await AsyncStorage.getItem("isSignedIn");
         if (signedIn === "true") {
           const storedName = await AsyncStorage.getItem("name");
@@ -52,7 +54,9 @@ export default function App() {
       let userData = await AsyncStorage.getItem("users");
       let users = userData ? JSON.parse(userData) : [];
 
-      const user = users.find(user => user.username === username && user.password === password);
+      const user = users.find(
+        (user) => user.username === username && user.password === password
+      );
 
       if (user) {
         setIsSignedIn(true);
@@ -95,28 +99,22 @@ export default function App() {
     try {
       let userData = await AsyncStorage.getItem("users");
       let users = userData ? JSON.parse(userData) : [];
+      const newUser = { name, username, gender, password };
+      users.push(newUser);
+      await AsyncStorage.setItem("users", JSON.stringify(users));
+      console.log(users);
 
-      // const existingUser = users.find(user => user.username === username);
+      await AsyncStorage.setItem("isSignedIn", "true");
+      await AsyncStorage.setItem("name", name);
+      await AsyncStorage.setItem("username", username);
+      await AsyncStorage.setItem("password", password);
+      await AsyncStorage.setItem("gender", gender);
 
-      // if (existingUser) {
-      //   Alert.alert("Username Taken", "Please choose a different username.");
-      // } else {
-        const newUser = { name, username, gender, password };
-        users.push(newUser);
-        await AsyncStorage.setItem("users", JSON.stringify(users));
-        console.log(users)
-
-        await AsyncStorage.setItem("isSignedIn", "true");
-        await AsyncStorage.setItem("name", name);
-        await AsyncStorage.setItem("username", username);
-        await AsyncStorage.setItem("password", password);
-        await AsyncStorage.setItem("gender", gender);
-
-        setIsSignedIn(true);
-        setName(name);
-        setUserName(username);
-        setPassword(password);
-        setGender(gender);
+      setIsSignedIn(true);
+      setName(name);
+      setUserName(username);
+      setPassword(password);
+      setGender(gender);
       // }
     } catch (error) {
       console.error("Failed to sign in", error);
@@ -143,13 +141,13 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={isSignedIn ? "Home" : "Signin"}
+        initialRouteName="Home"
         screenOptions={{
           //for all the screens
           headerStyle: {
-            backgroundColor: "#312c51",
+            backgroundColor: "#106ad2",
           },
-          headerTintColor: "#f0c38e",
+          headerTintColor: "#88ffff",
           headerTitleStyle: { fontWeight: "bold", fontSize: 27 },
           contentStyle: {
             backgroundColor: "#df643f",
@@ -178,7 +176,7 @@ export default function App() {
                 ) : (
                   <Pressable
                     style={{
-                      backgroundColor: "#48426d",
+                      backgroundColor: "#88ffff",
                       paddingVertical: 5,
                       paddingHorizontal: 12,
                       borderRadius: 6,
@@ -188,7 +186,7 @@ export default function App() {
                     <Text
                       style={{
                         fontSize: 18,
-                        color: "#f0c38e",
+                        color: "#106ad2",
                         fontWeight: "600",
                       }}
                     >
@@ -236,6 +234,8 @@ export default function App() {
               />
             )}
           </Stack.Screen>
+          <Stack.Screen name="Main" component={PrdtCards} />
+          <Stack.Screen name="Product" component={Prdtdetails} />
         </>
         {/* ) : (
           <>

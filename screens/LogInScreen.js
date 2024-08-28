@@ -22,7 +22,7 @@ export default function LogInScreen({ onLogIn, navigation }) {
   const handleLogIn = () => {
     if (username && password) {
       onLogIn(username, password);
-      navigation.navigate('Home');
+      navigation.navigate("Home");
     } else {
       Alert.alert("Error", "Please fill out all fields.");
     }
@@ -33,18 +33,6 @@ export default function LogInScreen({ onLogIn, navigation }) {
       <SafeAreaView>
         <View style={styles.formContainer}>
           <Image source={login} style={{ width: 300, height: 280 }} />
-
-          {/* <View style={styles.commonInput}>
-            <Text style={styles.label}>Name: </Text>
-            <TextInput
-              value={name}
-              style={styles.inputField}
-              placeholder="Enter your name"
-              placeholderTextColor="#f0c38e"
-              onChangeText={setName}
-            />
-          </View> */}
-
           <View style={styles.commonInput}>
             <Text style={styles.label}>Username: </Text>
             <TextInput
@@ -73,10 +61,16 @@ export default function LogInScreen({ onLogIn, navigation }) {
           <Text style={styles.btnText}>Log In</Text>
         </TouchableOpacity>
 
-        <View style={{flexDirection: 'row', gap:10, justifyContent: 'center'}}>
-          <Text style={styles.label}>New to this?</Text>
-          <Pressable onPress={() => navigation.navigate('SignIn')}>
-            <Text style={[styles.label, {color: 'lightblue'}]}>Sign In</Text>
+        <View
+          style={{ flexDirection: "row", gap: 10, justifyContent: "center" }}
+        >
+          <Text
+            style={styles.label}
+          >
+            New to this?
+          </Text>
+          <Pressable onPress={() => navigation.navigate("SignIn")}>
+            <Text style={[styles.label, { color: "midnightblue" }]}>Sign In</Text>
           </Pressable>
         </View>
       </SafeAreaView>
@@ -88,22 +82,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 16,
-    backgroundColor: "#48426d",
-  },
-  topic: {
-    fontSize: 23,
-    fontWeight: "bold",
-    marginVertical: 10,
-    color: "white",
-    textAlign: "center",
+    backgroundColor: "#fff",
   },
   formContainer: {
     paddingHorizontal: 16,
     borderWidth: 1,
-    borderColor: "white",
+    borderColor: "#106ad2",
     marginVertical: 16,
     borderRadius: 10,
-    backgroundColor: "#312c51",
+    backgroundColor: "#fff",
     paddingBottom: 10,
   },
   commonInput: {
@@ -112,27 +99,29 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 20,
-    color: "#fff",
+    color: "#3f3f3f",
   },
   inputField: {
     fontSize: 19,
     paddingVertical: 3,
     paddingHorizontal: 10,
-    color: "#f0c38e",
-    backgroundColor: "#48426d",
+    color: "#fff",
+    backgroundColor: "#106ad2",
     height: 50,
     borderRadius: 10,
   },
   btn: {
-    backgroundColor: "#f0c38e", // Background color of the button
+    backgroundColor: "#88ffff", // Background color of the button
     padding: 8,
     borderRadius: 5,
     alignItems: "center",
     marginBottom: 16,
+    borderWidth: 1,
+    borderColor: '#106ad2'
   },
   btnText: {
-    color: "#312c51",
-    fontSize: 19,
+    color: "#106ad2",
+    fontSize: 21,
     fontWeight: "bold",
   },
 });

@@ -49,9 +49,9 @@ export default function ProfileScreen({
         </View>
 
         <View style={styles.userDetails}>
-          <Text style={styles.userDetailsText}>Username: <Text style={{color: '#f1aa9b'}}>{username}</Text></Text>
-          <Text style={styles.userDetailsText}>Gender: <Text style={{color: '#f1aa9b'}}>{gender}</Text></Text>
-          <Text style={styles.userDetailsText}>Password: <Text style={{color: '#f1aa9b'}}>{password}</Text></Text>
+          <Text style={styles.userDetailsText}>Username: <Text style={{color: '#106ad2'}}>{username}</Text></Text>
+          <Text style={styles.userDetailsText}>Gender: <Text style={{color: '#106ad2'}}>{gender}</Text></Text>
+          <Text style={styles.userDetailsText}>Password: <Text style={{color: '#106ad2'}}>{password}</Text></Text>
         </View>
       </SafeAreaView>
     </ScrollView>
@@ -62,14 +62,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 16,
-    backgroundColor: "#48426d",
+    backgroundColor: "#fff",
   },
   topic: {
     fontSize: 28,
     fontWeight: "bold",
     marginVertical: 10,
-    color: "white",
-    textAlign: 'center',
+    color: "#2f2f2f",
   },
   img: {
     width: 100, // Adjust the width and height as needed
@@ -79,25 +78,27 @@ const styles = StyleSheet.create({
   },
   userDetails: {
     marginVertical: 10,
-    backgroundColor: "#312c51",
+    backgroundColor: "#fff",
     padding: 12,
     borderRadius: 8, // Optional: Add border-radius for a rounded corner effect
     borderWidth: 1,
-    borderColor: 'white',
+    borderColor: '#106ad2',
   },
   userDetailsText: {
     fontSize: 22,
     fontWeight: "bold", // Use 'bold' or numeric values
-    color: '#f0c38e'
+    color: '#3f3f3f'
   },
   btn: {
-    backgroundColor: "#312c51", // Background color of the button
+    backgroundColor: "#fff", // Background color of the button
     padding: 8,
     borderRadius: 5,
     alignItems: "center",
+    borderWidth: 1,
+    borderColor: '#106ad2'
   },
   btnText: {
-    color: "#f0c38e",
+    color: "#106ad2",
     fontSize: 19,
     fontWeight: "bold",
   },

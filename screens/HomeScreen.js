@@ -1,31 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Text,
   StyleSheet,
   ScrollView,
   SafeAreaView,
-  Image,
 } from "react-native";
+import { SearchBar } from "react-native-elements";
+import PrdtCards from "../components/PrdtCards";
 
-const home = require("../assets/home.png");
+export default function HomeScreen({ name }) {
+  const [searchValue, setSearchValue] = useState('');
 
-export default function HomeScreen({
-  name,
-}) {
   return (
     <ScrollView style={styles.container}>
       <SafeAreaView>
         <Text style={styles.topic}>Welcome, {name}</Text>
 
-        <Image
-          source={home}
-          style={{
-            width: 380,
-            height: 490,
-            marginBottom: 19,
-            borderRadius: 10,
-          }}
+        <SearchBar
+          placeholder="Search here..."
+          containerStyle={{ backgroundColor: "#fff", borderColor: '#fff' }}
+          inputContainerStyle={{backgroundColor: '#fff', borderWidth: 1,}}
+          inputStyle={{color: 'white'}}
+          placeholderTextColor={{color: '#48426d'}}
+          round
+          value={searchValue}
+          onChangeText={setSearchValue}
         />
+
+        <PrdtCards />
       </SafeAreaView>
     </ScrollView>
   );
@@ -35,12 +37,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 16,
-    backgroundColor: "#48426d",
+    backgroundColor: "#fff",
   },
   topic: {
     fontSize: 25,
     fontWeight: "bold",
     marginVertical: 10,
-    color: "white",
+    color: "#2f2f2f",
   },
 });
