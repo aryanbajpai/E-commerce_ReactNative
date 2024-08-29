@@ -45,13 +45,13 @@ export default function ProfileScreen({
             margin: 10,
           }}
         >
-          <Image source={profilePic} style={{ width: 250, height: 250 }} />
+          <Image source={profilePic} style={{ width: 200, height: 200 }} />
         </View>
 
         <View style={styles.userDetails}>
           <Text style={styles.userDetailsText}>Username: <Text style={{color: '#dfdfdf'}}>{username}</Text></Text>
           <Text style={styles.userDetailsText}>Gender: <Text style={{color: '#dfdfdf'}}>{gender}</Text></Text>
-          <Text style={styles.userDetailsText}>Password: <Text style={{color: '#dfdfdf'}}>{password}</Text></Text>
+          {/* <Text style={styles.userDetailsText}>Password: <Text style={{color: '#dfdfdf'}}>{password}</Text></Text> */}
         </View>
       </SafeAreaView>
     </ScrollView>
@@ -67,11 +67,11 @@ const styles = StyleSheet.create({
   topic: {
     fontSize: 28,
     fontWeight: "bold",
-    marginVertical: 10,
+    marginVertical: 5,
     color: "#fff",
   },
   img: {
-    width: 100, // Adjust the width and height as needed
+    width: 100,
     height: 100,
     alignSelf: "center",
     marginBottom: 20,
@@ -87,7 +87,8 @@ const styles = StyleSheet.create({
   userDetailsText: {
     fontSize: 22,
     fontWeight: "bold", // Use 'bold' or numeric values
-    color: '#f0c38e'
+    color: '#f0c38e',
+    marginVertical: 4,
   },
   btn: {
     backgroundColor: "#312c51", // Background color of the button

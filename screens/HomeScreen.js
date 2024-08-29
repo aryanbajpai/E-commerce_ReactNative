@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import {
   Text,
   StyleSheet,
-  ScrollView,
+  View,
   SafeAreaView,
+  ScrollView,
 } from "react-native";
 import { SearchBar } from "react-native-elements";
 import PrdtCards from "../components/PrdtCards";
@@ -36,7 +37,7 @@ export default function HomeScreen({ name }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 16,
+    paddingHorizontal: 8,
     backgroundColor: "#48426d",
   },
   topic: {

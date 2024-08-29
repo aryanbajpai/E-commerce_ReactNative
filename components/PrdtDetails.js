@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import React from "react";
 import {
   ScrollView,
@@ -7,10 +8,30 @@ import {
   Image,
   StyleSheet,
   Pressable,
+  Alert,
 } from "react-native";
 
 export default function Prdtdetails({ route }) {
-  const { item } = route.params; // Extract the item from route.params
+  const { item } = route?.params; // Extract the item from route.params
+
+  const handleAddToCart = async () => {
+    try {
+      //get initial Cart data from Storage
+      let initialCart = await AsyncStorage.getItem("cartData");
+      let cartItems = initialCart ? JSON.parse(initialCart) : [];
+
+      //Add new Item
+      cartItems.push(item);
+      await AsyncStorage.setItem("cartData", JSON.stringify(cartItems));
+
+      Alert.alert("Item Added", `${item.prdtName} successfully added to cart.`);
+    } catch (error) {
+      console.log(
+        "Error Occured while adding Data to AsyncStorage",
+        error
+      );
+    }
+  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -21,7 +42,7 @@ export default function Prdtdetails({ route }) {
             <Image source={item.img} style={styles.image} />
           </View>
 
-          <View style={{backgroundColor: '#312c51', borderRadius: 9, paddingHorizontal: 12, paddingVertical: 10, borderWidth: 1, borderColor: '#f3f3f3' }}>
+          <View style={styles.details}>
             <Text style={styles.prdtTitle}>{item.prdtName}</Text>
             <Text style={styles.prdtDesc}>{item.desc}</Text>
             <Text style={styles.price}>
@@ -33,7 +54,7 @@ export default function Prdtdetails({ route }) {
       </ScrollView>
 
       <View style={styles.button}>
-        <Pressable style={styles.addCart}>
+        <Pressable style={styles.addCart} onPress={handleAddToCart}>
           <Text style={styles.commonText}>Add to cart</Text>
         </Pressable>
 
@@ -48,7 +69,7 @@ export default function Prdtdetails({ route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 16,
+    paddingHorizontal: 10,
     backgroundColor: "#48426d",
     position: "relative",
   },
@@ -63,6 +84,15 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     paddingHorizontal: 5,
   },
+  details: {
+    backgroundColor: "#312c51",
+    borderRadius: 9,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    marginVertical: 7,
+    borderWidth: 1,
+    borderColor: "#f3f3f3",
+  },
   image: {
     width: "82%",
     height: 330,
@@ -70,24 +100,25 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   prdtTitle: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: "bold",
-    color: '#f0c38e',
-    fontStyle: 'italic',
+    color: "#f0c38e",
+    fontStyle: "italic",
   },
   prdtDesc: {
-    fontSize: 17,
+    fontSize: 16,
     color: "darkgray",
     fontStyle: "italic",
   },
   price: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#f0f0f0",
+    color: "#dfdfdf",
   },
   discount: {
     fontSize: 16,
     color: "lightgreen",
+    fontStyle: "italic",
   },
   button: {
     flexDirection: "row",
@@ -95,14 +126,14 @@ const styles = StyleSheet.create({
   },
   addCart: {
     width: "50%",
-    backgroundColor: "#f1f1f1",
+    backgroundColor: "#f0f0f0",
   },
   buy: {
     width: "50%",
     backgroundColor: "#f0c38e",
   },
   commonText: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: "bold",
     textAlign: "center",
     paddingVertical: 16,

@@ -1,0 +1,1 @@
+import { ScrollView, SafeAreaView, View, Text, StyleSheet, TouchableOpacity } from "react-native";

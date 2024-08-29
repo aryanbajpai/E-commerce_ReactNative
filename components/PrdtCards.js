@@ -83,8 +83,8 @@ const PrdtCards = () => {
   ];
   const navigation = useNavigation();
   const handlePress = (item) => {
-    navigation.navigate('Product', {item});
-  }
+    navigation.navigate("Product", { item });
+  };
 
   const renderItem = ({ item }) => (
     <Pressable style={styles.card} onPress={() => handlePress(item)}>
@@ -101,20 +101,21 @@ const PrdtCards = () => {
   );
 
   return (
-    <FlatList
-      data={prdtArray}
-      renderItem={renderItem}
-      keyExtractor={(item, index) => index.toString()}
-      numColumns={2}
-      columnWrapperStyle={styles.columnWrapper}
-      contentContainerStyle={styles.container}
-    />
+      <FlatList
+        data={prdtArray}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => index.toString()}
+        numColumns={2}
+        columnWrapperStyle={styles.columnWrapper}
+        contentContainerStyle={styles.container}
+      />
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     paddingVertical: 8,
+    marginBottom: 13,
   },
   columnWrapper: {
     justifyContent: "space-between",
@@ -127,7 +128,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     backgroundColor: "#fff",
     borderWidth: 1,
-    borderColor: 'lightgray'
+    borderColor: "lightgray",
   },
   image: {
     width: "100%",
@@ -148,7 +149,7 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 19,
     fontWeight: "bold",
-    color: '#3f3f3f'
+    color: "#3f3f3f",
   },
   discount: {
     fontSize: 15,
