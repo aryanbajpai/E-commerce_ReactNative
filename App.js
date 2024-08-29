@@ -15,6 +15,7 @@ import Orders from "./components/Orders";
 import Notification from "./components/Notification";
 import { Ionicons } from "@expo/vector-icons";
 import OrderSummary from "./components/OrderSummary";
+import AddressForm from "./components/AddressForm";
 
 const maleProfile = require("./assets/male.png");
 const femaleProfile = require("./assets/female.png");
@@ -348,6 +349,7 @@ export default function App() {
         <Stack.Screen name="Product" component={Prdtdetails} />
         <Stack.Screen name="Cart" component={Cart} />
         <Stack.Screen name="Order Summary" component={OrderSummary} />
+        <Stack.Screen name="Add Address" component={AddressForm} />
       </Stack.Navigator>
     </NavigationContainer>
   );
