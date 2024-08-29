@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect } from "@react-navigation/native";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import {
   ScrollView,
   SafeAreaView,
@@ -14,6 +14,7 @@ import {
 export default function OrderSummary({ navigation }) {
   const [address, setAddress] = useState([]);
   const [cartItems, setCartItems] = useState([]);
+  const [quantity, setQuantity] = useState(1);
 
   const handleAddress = async () => {
     navigation.navigate("Add Address");
@@ -25,7 +26,7 @@ export default function OrderSummary({ navigation }) {
       if (storedAddress) {
         setAddress(JSON.parse(storedAddress));
       } else {
-        setAddress(null);
+        setAddress({});
       }
     } catch (error) {
       console.log("Failded to fetch Address Data.", error);
@@ -52,7 +53,7 @@ export default function OrderSummary({ navigation }) {
 
   return (
     <ScrollView style={styles.container}>
-      <SafeAreaView>
+      <SafeAreaView style={styles.container}>
         {/*ADDRESS*/}
         <View
           style={{
@@ -112,29 +113,15 @@ export default function OrderSummary({ navigation }) {
                   source={data.img}
                   style={{ width: 100, height: 120, marginBottom: 8 }}
                 />
-                <View style={styles.quantityContainer}>
-                  <TouchableOpacity>
-                    <Text style={styles.quanSymbol}>--</Text>
-                  </TouchableOpacity>
-                  <Text
-                    style={[
-                      styles.quanSymbol,
-                      { backgroundColor: "#dfdfdf", paddingHorizontal: 10, borderRadius: 20 },
-                    ]}
-                  >
-                    1
-                  </Text>
-                  <TouchableOpacity>
-                    <Text style={styles.quanSymbol}>+</Text>
-                  </TouchableOpacity>
-                </View>
               </View>
 
-              <View style={{ marginVertical: 14, marginHorizontal: 10 }}>
+              <View style={{ marginHorizontal: 14 }}>
                 <Text style={{ fontSize: 25, fontWeight: "bold" }}>
                   {data.prdtName}
                 </Text>
-                <Text style={{ fontSize: 21, fontWeight: 600 }}>
+                <Text
+                  style={{ fontSize: 21, fontWeight: 600, color: "#3f3f3f" }}
+                >
                   ₹{data.price}{" "}
                   <Text
                     style={{
@@ -146,10 +133,48 @@ export default function OrderSummary({ navigation }) {
                     ({data.discountPerc}% OFF)
                   </Text>
                 </Text>
+
+                <View style={styles.quantityContainer}>
+                  <TouchableOpacity>
+                    <Text style={styles.quanSymbol}>--</Text>
+                  </TouchableOpacity>
+                  <Text
+                    style={[
+                      styles.quanSymbol,
+                      {
+                        backgroundColor: "#dfdfdf",
+                        paddingHorizontal: 10,
+                        borderRadius: 20,
+                      },
+                    ]}
+                  >
+                    {quantity}
+                  </Text>
+                  <TouchableOpacity>
+                    <Text style={styles.quanSymbol}>+</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
           ))}
         </View>
+
+
+        {/*DONE */}
+        <View style={styles.continueContainer}>
+          <Text style={{fontSize: 25, fontWeight: 'bold'}}>₹Price</Text>
+          <TouchableOpacity
+            style={[styles.addressBtn, { paddingHorizontal: 20 }]}
+            onPress={handleAddress}
+          >
+            <Text
+              style={[styles.addressBtnText, { color: "black", fontSize: 20 }]}
+            >
+              Continue
+            </Text>
+          </TouchableOpacity>
+        </View>
+
       </SafeAreaView>
     </ScrollView>
   );
@@ -159,6 +184,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#48426d",
+    position: 'relative'
   },
   topic: {
     fontSize: 25,
@@ -201,11 +227,23 @@ const styles = StyleSheet.create({
     borderColor: "darkgray",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 8,
+    paddingHorizontal: 12,
     borderRadius: 8,
+    marginTop: 10,
+    paddingVertical: 7,
   },
   quanSymbol: {
     fontSize: 23,
     fontWeight: "bold",
+  },
+  continueContainer: {
+    flexDirection: "row",
+    backgroundColor: "white",
+    justifyContent: "space-between",
+    paddingHorizontal: 14,
+    paddingVertical: 16,
+    alignItems: "center",
+    position: 'static',
+    bottom: 0,
   },
 });
