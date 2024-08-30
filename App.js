@@ -57,7 +57,7 @@ function TabNavigator({
           backgroundColor: "#f0c38e",
         },
         headerTintColor: "#48426d",
-        headerTitleStyle: { fontWeight: "bold", fontSize: 24 },
+        headerTitleStyle: { fontWeight: "bold", fontSize: 23 },
         contentStyle: {
           backgroundColor: "#df643f",
         }, // Hide headers for tab screens if desired
@@ -255,7 +255,7 @@ export default function App() {
             backgroundColor: "#312c51",
           },
           headerTintColor: "#f0c38e",
-          headerTitleStyle: { fontWeight: "bold", fontSize: 27 },
+          headerTitleStyle: { fontWeight: "bold", fontSize: 26 },
           contentStyle: {
             backgroundColor: "#df643f",
           },

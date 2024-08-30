@@ -29,7 +29,7 @@ export default function OrderSummary({ navigation }) {
         setAddress({});
       }
     } catch (error) {
-      console.log("Failded to fetch Address Data.", error);
+      console.log("Failed to fetch Address Data.", error);
     }
   };
 
@@ -52,20 +52,12 @@ export default function OrderSummary({ navigation }) {
   );
 
   return (
-    <ScrollView style={styles.container}>
-      <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
         {/*ADDRESS*/}
-        <View
-          style={{
-            marginTop: 14,
-            backgroundColor: "#312c51",
-            paddingBottom: 16,
-          }}
-        >
+        <View style={styles.addressSection}>
           <View style={styles.addressContainer}>
-            <Text style={{ color: "white", fontSize: 22, fontWeight: 600 }}>
-              Deliver to:{" "}
-            </Text>
+            <Text style={styles.addressTitle}>Deliver to:{" "}</Text>
 
             {address.length === 0 ? (
               <TouchableOpacity
@@ -84,20 +76,11 @@ export default function OrderSummary({ navigation }) {
             )}
           </View>
 
-          <View style={{ paddingHorizontal: 13 }}>
-            <Text
-              style={{
-                fontWeight: "bold",
-                color: "#f0c38e",
-                fontSize: 22,
-                marginBottom: 8,
-              }}
-            >
-              {address.fullName}
-            </Text>
+          <View style={styles.addressDetails}>
+            <Text style={styles.addressName}>{address.fullName}</Text>
             <Text style={styles.addressText}>{address.building},</Text>
             <Text style={styles.addressText}>{address.road},</Text>
-            <Text style={[styles.addressText, { marginBottom: 8 }]}>
+            <Text style={styles.addressText}>
               {address.city} {address.pincode}
             </Text>
             <Text style={styles.addressText}>{address.phoneNo}</Text>
@@ -105,31 +88,21 @@ export default function OrderSummary({ navigation }) {
         </View>
 
         {/*ITEMS*/}
-        <View style={{ margin: 12 }}>
+        <View style={styles.itemsContainer}>
           {cartItems?.map((data, i) => (
             <View key={i} style={styles.itemCard}>
               <View>
                 <Image
                   source={data.img}
-                  style={{ width: 100, height: 120, marginBottom: 8 }}
+                  style={styles.itemImage}
                 />
               </View>
 
-              <View style={{ marginHorizontal: 14 }}>
-                <Text style={{ fontSize: 25, fontWeight: "bold" }}>
-                  {data.prdtName}
-                </Text>
-                <Text
-                  style={{ fontSize: 21, fontWeight: 600, color: "#3f3f3f" }}
-                >
+              <View style={styles.itemDetails}>
+                <Text style={styles.itemName}>{data.prdtName}</Text>
+                <Text style={styles.itemPrice}>
                   ₹{data.price}{" "}
-                  <Text
-                    style={{
-                      color: "green",
-                      fontSize: 18,
-                      fontStyle: "italic",
-                    }}
-                  >
+                  <Text style={styles.itemDiscount}>
                     ({data.discountPerc}% OFF)
                   </Text>
                 </Text>
@@ -141,11 +114,7 @@ export default function OrderSummary({ navigation }) {
                   <Text
                     style={[
                       styles.quanSymbol,
-                      {
-                        backgroundColor: "#dfdfdf",
-                        paddingHorizontal: 10,
-                        borderRadius: 20,
-                      },
+                      styles.quantityNumber,
                     ]}
                   >
                     {quantity}
@@ -158,25 +127,18 @@ export default function OrderSummary({ navigation }) {
             </View>
           ))}
         </View>
+      </ScrollView>
 
-
-        {/*DONE */}
-        <View style={styles.continueContainer}>
-          <Text style={{fontSize: 25, fontWeight: 'bold'}}>₹Price</Text>
-          <TouchableOpacity
-            style={[styles.addressBtn, { paddingHorizontal: 20 }]}
-            onPress={handleAddress}
-          >
-            <Text
-              style={[styles.addressBtnText, { color: "black", fontSize: 20 }]}
-            >
-              Continue
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-      </SafeAreaView>
-    </ScrollView>
+      {/*DONE */}
+      <View style={styles.continueContainer}>
+        <Text style={styles.priceText}>₹Price</Text>
+        <TouchableOpacity
+          style={styles.continueBtn}
+        >
+          <Text style={styles.continueBtnText}>Continue</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 }
 
@@ -184,13 +146,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#48426d",
-    position: 'relative'
+    position: 'relative',
   },
-  topic: {
-    fontSize: 25,
-    fontWeight: "bold",
-    marginVertical: 10,
-    color: "#fff",
+  scrollViewContent: {
+    flexGrow: 1, // Ensure ScrollView takes full height of its parent
+    paddingBottom: 75,
+  },
+  addressSection: {
+    marginTop: 14,
+    backgroundColor: "#312c51",
+    paddingBottom: 16,
   },
   addressContainer: {
     backgroundColor: "#312c51",
@@ -201,17 +166,35 @@ const styles = StyleSheet.create({
   },
   addressBtn: {
     backgroundColor: "#f0c38e",
-    padding: 7,
+    paddingVertical: 7,
+    paddingHorizontal: 12,
     borderRadius: 5,
   },
   addressBtnText: {
     color: "#48426d",
     fontWeight: "bold",
-    fontSize: 18,
+    fontSize: 17,
+  },
+  addressTitle: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "600",
+  },
+  addressDetails: {
+    paddingHorizontal: 13,
+  },
+  addressName: {
+    fontWeight: "bold",
+    color: "#f0c38e",
+    fontSize: 19,
+    marginBottom: 8,
   },
   addressText: {
     color: "#fff",
-    fontSize: 20,
+    fontSize: 17,
+  },
+  itemsContainer: {
+    margin: 12,
   },
   itemCard: {
     backgroundColor: "#fff",
@@ -221,7 +204,31 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     flexDirection: "row",
   },
+  itemImage: {
+    width: 120,
+    height: 150,
+  },
+  itemDetails: {
+    marginHorizontal: 14,
+    width: 180,
+  },
+  itemName: {
+    fontSize: 21,
+    fontWeight: "bold",
+    paddingBottom: 5,
+  },
+  itemPrice: {
+    fontSize: 19,
+    fontWeight: "600",
+    color: "#3f3f3f",
+  },
+  itemDiscount: {
+    color: "green",
+    fontSize: 16,
+    fontStyle: "italic",
+  },
   quantityContainer: {
+    width: '75%',
     flexDirection: "row",
     borderWidth: 1,
     borderColor: "darkgray",
@@ -233,17 +240,45 @@ const styles = StyleSheet.create({
     paddingVertical: 7,
   },
   quanSymbol: {
-    fontSize: 23,
+    fontSize: 19,
     fontWeight: "bold",
   },
+  quantityNumber: {
+    backgroundColor: "#dfdfdf",
+    paddingHorizontal: 8,
+    borderRadius: 25,
+    paddingVertical: 2,
+  },
   continueContainer: {
-    flexDirection: "row",
     backgroundColor: "white",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     paddingHorizontal: 14,
-    paddingVertical: 16,
+    paddingVertical: 10,
     alignItems: "center",
-    position: 'static',
+    position: 'absolute',
     bottom: 0,
+    width: '100%', // Ensure it takes the full width
+    borderWidth: 2,
+  },
+  priceText: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    fontStyle: 'italic',
+  },
+  continueBtn: {
+    backgroundColor: "#f0c38e",
+    paddingVertical: 7,
+    paddingHorizontal: 25,
+    borderRadius: 5,
+    borderWidth: 2,
+    borderColor: '#48426d',
+    marginTop: 10,
+  },
+  continueBtnText: {
+    color: "#48426d",
+    fontWeight: "bold",
+    fontSize: 18,
   },
 });

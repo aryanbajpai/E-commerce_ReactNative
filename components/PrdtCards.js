@@ -8,79 +8,76 @@ import {
   StyleSheet,
   Pressable,
 } from "react-native";
+import { prdtArray } from "../DummyData";
 
-const watch = require("../assets/watch.jpg");
-const clothes = require("../assets/cloth.jpg");
-const phone = require("../assets/phone.jpg");
-const crocks = require("../assets/crocks.jpg");
 
 const PrdtCards = () => {
-  const prdtArray = [
-    {
-      id: 1,
-      img: watch,
-      prdtName: "Horizen",
-      desc: "Description for product comes here",
-      price: 500,
-      discountPerc: 50,
-    },
-    {
-      id: 2,
-      img: clothes,
-      prdtName: "H&M",
-      desc: "Description for product comes here",
-      price: 1199,
-      discountPerc: 30,
-    },
-    {
-      id: 3,
-      img: phone,
-      prdtName: "Vivo Y100",
-      desc: "Description for product comes here",
-      price: 2499,
-      discountPerc: 25,
-    },
-    {
-      id: 4,
-      img: crocks,
-      prdtName: "Milton",
-      desc: "Description for product comes here",
-      price: 1449,
-      discountPerc: 23,
-    },
-    {
-      id: 5,
-      img: watch,
-      prdtName: "Horizen",
-      desc: "Description for product comes here",
-      price: 500,
-      discountPerc: 50,
-    },
-    {
-      id: 6,
-      img: clothes,
-      prdtName: "H&M",
-      desc: "Description for product comes here",
-      price: 1199,
-      discountPerc: 30,
-    },
-    {
-      id: 7,
-      img: phone,
-      prdtName: "Vivo Y100",
-      desc: "Description for product comes here",
-      price: 2499,
-      discountPerc: 25,
-    },
-    {
-      id: 8,
-      img: crocks,
-      prdtName: "Milton",
-      desc: "Description for product comes here",
-      price: 1449,
-      discountPerc: 23,
-    },
-  ];
+  // const prdtArray = [
+  //   {
+  //     id: 1,
+  //     img: watch,
+  //     prdtName: "Horizen",
+  //     desc: "Description for product comes here",
+  //     price: 500,
+  //     discountPerc: 50,
+  //   },
+  //   {
+  //     id: 2,
+  //     img: clothes,
+  //     prdtName: "H&M",
+  //     desc: "Description for product comes here",
+  //     price: 1199,
+  //     discountPerc: 30,
+  //   },
+  //   {
+  //     id: 3,
+  //     img: phone,
+  //     prdtName: "Vivo Y100",
+  //     desc: "Description for product comes here",
+  //     price: 2499,
+  //     discountPerc: 25,
+  //   },
+  //   {
+  //     id: 4,
+  //     img: crocks,
+  //     prdtName: "Milton",
+  //     desc: "Description for product comes here",
+  //     price: 1449,
+  //     discountPerc: 23,
+  //   },
+  //   {
+  //     id: 5,
+  //     img: watch,
+  //     prdtName: "Horizen",
+  //     desc: "Description for product comes here",
+  //     price: 500,
+  //     discountPerc: 50,
+  //   },
+  //   {
+  //     id: 6,
+  //     img: clothes,
+  //     prdtName: "H&M",
+  //     desc: "Description for product comes here",
+  //     price: 1199,
+  //     discountPerc: 30,
+  //   },
+  //   {
+  //     id: 7,
+  //     img: phone,
+  //     prdtName: "Vivo Y100",
+  //     desc: "Description for product comes here",
+  //     price: 2499,
+  //     discountPerc: 25,
+  //   },
+  //   {
+  //     id: 8,
+  //     img: crocks,
+  //     prdtName: "Milton",
+  //     desc: "Description for product comes here",
+  //     price: 1449,
+  //     discountPerc: 23,
+  //   },
+  // ];
   const navigation = useNavigation();
   const handlePress = (item) => {
     navigation.navigate("Product", { item });
@@ -132,28 +129,30 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: 210,
+    height: 200,
   },
   details: {
     padding: 8,
   },
   prdtTitle: {
-    fontSize: 21,
+    fontSize: 19,
     fontWeight: "bold",
     fontStyle: "italic",
   },
   prdtDesc: {
     fontSize: 15,
     color: "gray",
+    fontStyle: 'italic'
   },
   price: {
-    fontSize: 19,
+    fontSize: 18,
     fontWeight: "bold",
     color: "#3f3f3f",
   },
   discount: {
     fontSize: 15,
     color: "green",
+    fontStyle: 'italic'
   },
 });
 

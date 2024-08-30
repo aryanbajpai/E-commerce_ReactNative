@@ -8,22 +8,24 @@ import {
   Image,
   View,
   TouchableOpacity,
+  Pressable,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 const mtCart = require("../assets/mtCart.png");
 
-export default function Cart({navigation}) {
+export default function Cart({ navigation }) {
   const [cart, setCart] = useState([]);
   const [price, setPrice] = useState(0);
 
-  const platformChrg = price*0.05;
+  const platformChrg = price * 0.05;
   const roundOff = parseFloat(platformChrg.toFixed(2));
 
   const totalAmt = roundOff + price;
 
   const handleOrder = () => {
-    navigation.navigate('Order Summary')
-  }
+    navigation.navigate("Order Summary");
+  };
 
   useEffect(() => {
     const fetchCartData = async () => {
@@ -49,6 +51,28 @@ export default function Cart({navigation}) {
     fetchCartData();
   }, []);
 
+  const remove = async (id) => {
+    try {
+      const storedCart = await AsyncStorage.getItem("cartData");
+      if (storedCart) {
+        const parsedCart = JSON.parse(storedCart);
+        
+        const updatedCart = parsedCart.filter(item => item.id !== id);
+        
+        // Save the updated cart back to AsyncStorage
+        await AsyncStorage.setItem("cartData", JSON.stringify(updatedCart));
+        
+        setCart(updatedCart);
+  
+        const total = updatedCart.reduce((sum, item) => sum + item.price, 0);
+        setPrice(total);
+      }
+    } catch (error) {
+      console.log("Error while removing item from cart", error);
+    }
+  };
+  
+
   return (
     <ScrollView style={styles.container}>
       <SafeAreaView>
@@ -61,28 +85,23 @@ export default function Cart({navigation}) {
           </>
         ) : (
           <>
-            {cart?.map((i, key) => (
-              <View key={key} style={styles.cartItemContainer}>
-                <Image source={i.img} style={{ width: 100, height: 120 }} />
-                <View style={{ width: 190 }}>
-                  <Text style={styles.prdtName}>{i.prdtName}</Text>
-                  <Text style={styles.desc}>{i.desc}</Text>
+            {cart?.map((i) => (
+              <View key={i?.id} style={styles.cartItemContainer}>
+                <Image source={i?.img} style={{ width: 100, height: 120 }} />
+                <View style={{ width: 200 }}>
+                  <Text style={styles.prdtName}>{i?.prdtName}</Text>
+                  <Text style={styles.desc}>{i?.desc}</Text>
+                  <Text style={styles.price}>₹{i?.price}</Text>
                 </View>
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Text style={styles.price}>₹{i.price}</Text>
-                </View>
+                <Pressable onPress={() => remove(i?.id)} style={styles.icons}>
+                  <Ionicons name="trash-bin" size={20} color={"red"} />
+                </Pressable>
               </View>
             ))}
 
             <View style={styles.priceDetailsSection}>
               <Text
-                style={{ fontSize: 18, fontWeight: "bold", color: "#f0c38e" }}
+                style={{ fontSize: 17, fontWeight: "bold", color: "#f0c38e" }}
               >
                 Price Details
               </Text>
@@ -93,7 +112,9 @@ export default function Cart({navigation}) {
               </View>
 
               <View style={styles.billing}>
-                <Text style={styles.commonTextStyle}>Platform Charge (+5%)</Text>
+                <Text style={styles.commonTextStyle}>
+                  Platform Charge (+5%)
+                </Text>
                 <Text style={[styles.commonTextStyle, { color: "lightgreen" }]}>
                   +{roundOff}
                 </Text>
@@ -132,12 +153,12 @@ export default function Cart({navigation}) {
                 ]}
               >
                 <Text
-                  style={{ fontSize: 18, fontWeight: "bold", color: "#f0c38e" }}
+                  style={{ fontSize: 17, fontWeight: "bold", color: "#f0c38e" }}
                 >
                   Total
                 </Text>
                 <Text
-                  style={{ fontSize: 18, fontWeight: "bold", color: "#f0c38e" }}
+                  style={{ fontSize: 17, fontWeight: "bold", color: "#f0c38e" }}
                 >
                   ₹{totalAmt}
                 </Text>
@@ -149,10 +170,14 @@ export default function Cart({navigation}) {
                 flexDirection: "row",
                 justifyContent: "space-between",
                 alignItems: "center",
+                marginBottom: 15,
               }}
             >
-              <Text style={styles.topic}>₹ {totalAmt}</Text>
-              <TouchableOpacity style={styles.placeOrderBtn} onPress={handleOrder}>
+              <Text style={styles.topic}>₹ {totalAmt} </Text>
+              <TouchableOpacity
+                style={styles.placeOrderBtn}
+                onPress={handleOrder}
+              >
                 <Text style={styles.placeOrderText}>Place Order</Text>
               </TouchableOpacity>
             </View>
@@ -171,7 +196,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#48426d",
   },
   topic: {
-    fontSize: 25,
+    fontSize: 22,
     fontWeight: "bold",
     marginVertical: 14,
     color: "#fff",
@@ -184,19 +209,24 @@ const styles = StyleSheet.create({
     marginVertical: 30,
   },
   cartItemContainer: {
-    width: "100%",
     flexDirection: "row",
-    justifyContent: "space-between",
+    gap: 15,
     marginVertical: 8,
     padding: 10,
     borderRadius: 8,
     backgroundColor: "#fff",
     elevation: 5,
     shadowColor: "white",
+    position: "relative",
+  },
+  icons: {
+    position: "absolute",
+    right: 8,
+    bottom: 5,
   },
   prdtName: {
     marginTop: 8,
-    fontSize: 25,
+    fontSize: 22,
     fontWeight: "bold",
     fontStyle: "italic",
   },
@@ -206,7 +236,7 @@ const styles = StyleSheet.create({
     color: "gray",
   },
   price: {
-    fontSize: 23,
+    fontSize: 20,
     fontWeight: "bold",
     fontStyle: "italic",
     color: "#5f5f5f",
@@ -227,17 +257,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   commonTextStyle: {
-    fontSize: 17,
+    fontSize: 16,
     color: "#fff",
   },
   placeOrderBtn: {
     backgroundColor: "#f0c38e",
-    padding: 10,
+    paddingVertical: 10,
     borderRadius: 10,
     marginVertical: 8,
+    paddingHorizontal: 14,
   },
   placeOrderText: {
-    fontSize: 20,
+    fontSize: 17,
     fontWeight: "bold",
     color: "#000",
   },

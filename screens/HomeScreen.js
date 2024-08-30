@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#48426d",
   },
   topic: {
-    fontSize: 25,
+    fontSize: 23,
     fontWeight: "bold",
     marginVertical: 10,
     color: "#fff",

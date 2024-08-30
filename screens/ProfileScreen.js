@@ -19,11 +19,10 @@ export default function ProfileScreen({
   gender,
   onLogOut,
 }) {
-
   return (
     <ScrollView style={styles.container}>
       <SafeAreaView>
-      <View
+        <View
           style={{
             marginVertical: 14,
             flexDirection: "row",
@@ -45,12 +44,16 @@ export default function ProfileScreen({
             margin: 10,
           }}
         >
-          <Image source={profilePic} style={{ width: 200, height: 200 }} />
+          <Image source={profilePic} style={{ width: 170, height: 170 }} />
         </View>
 
         <View style={styles.userDetails}>
-          <Text style={styles.userDetailsText}>Username: <Text style={{color: '#dfdfdf'}}>{username}</Text></Text>
-          <Text style={styles.userDetailsText}>Gender: <Text style={{color: '#dfdfdf'}}>{gender}</Text></Text>
+          <Text style={styles.userDetailsText}>
+            Username: <Text style={{ color: "#dfdfdf" }}>{username}</Text>
+          </Text>
+          <Text style={styles.userDetailsText}>
+            Gender: <Text style={{ color: "#dfdfdf" }}>{gender}</Text>
+          </Text>
           {/* <Text style={styles.userDetailsText}>Password: <Text style={{color: '#dfdfdf'}}>{password}</Text></Text> */}
         </View>
       </SafeAreaView>
@@ -65,7 +68,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#48426d",
   },
   topic: {
-    fontSize: 28,
+    fontSize: 23,
     fontWeight: "bold",
     marginVertical: 5,
     color: "#fff",
@@ -82,23 +85,23 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 10,
     elevation: 4,
-    shadowColor: '#fff',
+    shadowColor: "#fff",
   },
   userDetailsText: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: "bold", // Use 'bold' or numeric values
-    color: '#f0c38e',
+    color: "#f0c38e",
     marginVertical: 4,
   },
   btn: {
     backgroundColor: "#312c51", // Background color of the button
     padding: 8,
-    borderRadius: 5,
+    borderRadius: 8,
     alignItems: "center",
   },
   btnText: {
     color: "#f0c38e",
-    fontSize: 19,
+    fontSize: 17,
     fontWeight: "bold",
   },
 });
