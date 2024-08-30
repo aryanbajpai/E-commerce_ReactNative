@@ -1,36 +1,28 @@
 import React, { useState } from "react";
-import {
-  Text,
-  StyleSheet,
-  View,
-  SafeAreaView,
-  ScrollView,
-} from "react-native";
+import { Text, StyleSheet, View, SafeAreaView, ScrollView } from "react-native";
 import { SearchBar } from "react-native-elements";
 import PrdtCards from "../components/PrdtCards";
 
 export default function HomeScreen({ name }) {
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
 
   return (
-    <ScrollView style={styles.container}>
-      <SafeAreaView>
-        <Text style={styles.topic}>Welcome, {name}</Text>
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.topic}>Welcome, {name}</Text>
 
-        <SearchBar
-          placeholder="Search here..."
-          containerStyle={{ backgroundColor: "#48426d", borderColor: '#48426d' }}
-          inputContainerStyle={{backgroundColor: '#312c51'}}
-          inputStyle={{color: 'white'}}
-          placeholderTextColor={{color: '#fff'}}
-          round
-          value={searchValue}
-          onChangeText={setSearchValue}
-        />
+      <SearchBar
+        placeholder="Search here..."
+        containerStyle={{ backgroundColor: "#48426d", borderColor: "#48426d" }}
+        inputContainerStyle={{ backgroundColor: "#312c51" }}
+        inputStyle={{ color: "white" }}
+        placeholderTextColor={{ color: "#fff" }}
+        round
+        value={searchValue}
+        onChangeText={setSearchValue}
+      />
 
-        <PrdtCards />
-      </SafeAreaView>
-    </ScrollView>
+      <PrdtCards />
+    </SafeAreaView>
   );
 }
 
