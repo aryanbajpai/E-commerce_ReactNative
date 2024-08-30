@@ -11,6 +11,7 @@ export const prdtArray = [
       desc: "Description for product comes here.",
       price: 500,
       discountPerc: 50,
+      quantity: 1,
     },
     {
       id: 2,
@@ -19,6 +20,7 @@ export const prdtArray = [
       desc: "Description for product comes here.",
       price: 1199,
       discountPerc: 30,
+      quantity: 1,
     },
     {
       id: 3,
@@ -27,6 +29,7 @@ export const prdtArray = [
       desc: "Description for product comes here.",
       price: 2499,
       discountPerc: 25,
+      quantity: 1,
     },
     {
       id: 4,
@@ -35,6 +38,7 @@ export const prdtArray = [
       desc: "Description for product comes here.",
       price: 1449,
       discountPerc: 23,
+      quantity: 1,
     },
     {
       id: 5,
@@ -43,6 +47,7 @@ export const prdtArray = [
       desc: "Description for product comes here.",
       price: 500,
       discountPerc: 50,
+      quantity: 1,
     },
     {
       id: 6,
@@ -51,6 +56,7 @@ export const prdtArray = [
       desc: "Description for product comes here.",
       price: 1199,
       discountPerc: 30,
+      quantity: 1,
     },
     {
       id: 7,
@@ -59,6 +65,7 @@ export const prdtArray = [
       desc: "Description for product comes here.",
       price: 2499,
       discountPerc: 25,
+      quantity: 1,
     },
     {
       id: 8,
@@ -67,5 +74,6 @@ export const prdtArray = [
       desc: "Description for product comes here.",
       price: 1449,
       discountPerc: 23,
+      quantity: 1,
     },
   ];

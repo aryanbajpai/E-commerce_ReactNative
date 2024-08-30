@@ -11,10 +11,11 @@ import {
   Image,
 } from "react-native";
 
-export default function OrderSummary({ navigation }) {
+export default function OrderSummary({ navigation, route }) {
+  const { totalAmt } = route?.params;
+
   const [address, setAddress] = useState([]);
   const [cartItems, setCartItems] = useState([]);
-  const [quantity, setQuantity] = useState(1);
 
   const handleAddress = async () => {
     navigation.navigate("Add Address");
@@ -57,7 +58,7 @@ export default function OrderSummary({ navigation }) {
         {/*ADDRESS*/}
         <View style={styles.addressSection}>
           <View style={styles.addressContainer}>
-            <Text style={styles.addressTitle}>Deliver to:{" "}</Text>
+            <Text style={styles.addressTitle}>Deliver to: </Text>
 
             {address.length === 0 ? (
               <TouchableOpacity
@@ -89,40 +90,24 @@ export default function OrderSummary({ navigation }) {
 
         {/*ITEMS*/}
         <View style={styles.itemsContainer}>
-          {cartItems?.map((data, i) => (
-            <View key={i} style={styles.itemCard}>
+          {cartItems?.map((data) => (
+            <View key={data?.id} style={styles.itemCard}>
               <View>
-                <Image
-                  source={data.img}
-                  style={styles.itemImage}
-                />
+                <Image source={data?.img} style={styles.itemImage} />
               </View>
 
               <View style={styles.itemDetails}>
-                <Text style={styles.itemName}>{data.prdtName}</Text>
+                <Text style={styles.itemName}>{data?.prdtName}</Text>
                 <Text style={styles.itemPrice}>
-                  ₹{data.price}{" "}
+                  ₹{data?.price}{" "}
                   <Text style={styles.itemDiscount}>
-                    ({data.discountPerc}% OFF)
+                    ({data?.discountPerc}% OFF)
                   </Text>
                 </Text>
-
-                <View style={styles.quantityContainer}>
-                  <TouchableOpacity>
-                    <Text style={styles.quanSymbol}>--</Text>
-                  </TouchableOpacity>
-                  <Text
-                    style={[
-                      styles.quanSymbol,
-                      styles.quantityNumber,
-                    ]}
-                  >
-                    {quantity}
-                  </Text>
-                  <TouchableOpacity>
-                    <Text style={styles.quanSymbol}>+</Text>
-                  </TouchableOpacity>
-                </View>
+                <Text style={{ fontSize: 19, fontWeight: 500, marginTop: 5 }}>
+                  Quan:{" "}
+                  <Text style={{ fontWeight: "bold", fontSize: 21 }}>{data?.quantity}</Text>
+                </Text>
               </View>
             </View>
           ))}
@@ -131,10 +116,8 @@ export default function OrderSummary({ navigation }) {
 
       {/*DONE */}
       <View style={styles.continueContainer}>
-        <Text style={styles.priceText}>₹Price</Text>
-        <TouchableOpacity
-          style={styles.continueBtn}
-        >
+        <Text style={styles.priceText}>₹{totalAmt}</Text>
+        <TouchableOpacity style={styles.continueBtn}>
           <Text style={styles.continueBtnText}>Continue</Text>
         </TouchableOpacity>
       </View>
@@ -146,7 +129,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#48426d",
-    position: 'relative',
+    position: "relative",
   },
   scrollViewContent: {
     flexGrow: 1, // Ensure ScrollView takes full height of its parent
@@ -206,7 +189,8 @@ const styles = StyleSheet.create({
   },
   itemImage: {
     width: 120,
-    height: 150,
+    height: 130,
+    borderRadius: 8,
   },
   itemDetails: {
     marginHorizontal: 14,
@@ -227,57 +211,34 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontStyle: "italic",
   },
-  quantityContainer: {
-    width: '75%',
+  continueContainer: {
+    backgroundColor: "#f0c38e",
     flexDirection: "row",
-    borderWidth: 1,
-    borderColor: "darkgray",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 12,
-    borderRadius: 8,
-    marginTop: 10,
-    paddingVertical: 7,
-  },
-  quanSymbol: {
-    fontSize: 19,
-    fontWeight: "bold",
-  },
-  quantityNumber: {
-    backgroundColor: "#dfdfdf",
-    paddingHorizontal: 8,
-    borderRadius: 25,
-    paddingVertical: 2,
-  },
-  continueContainer: {
-    backgroundColor: "white",
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
     paddingHorizontal: 14,
     paddingVertical: 10,
     alignItems: "center",
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
-    width: '100%', // Ensure it takes the full width
+    width: "100%",
     borderWidth: 2,
   },
   priceText: {
     fontSize: 22,
-    fontWeight: 'bold',
-    fontStyle: 'italic',
+    fontWeight: "bold",
+    fontStyle: "italic",
+    color: '#312c51'
   },
   continueBtn: {
-    backgroundColor: "#f0c38e",
+    backgroundColor: "#312c51",
     paddingVertical: 7,
     paddingHorizontal: 25,
     borderRadius: 5,
-    borderWidth: 2,
-    borderColor: '#48426d',
     marginTop: 10,
   },
   continueBtnText: {
-    color: "#48426d",
+    color: "#f0c38e",
     fontWeight: "bold",
     fontSize: 18,
   },

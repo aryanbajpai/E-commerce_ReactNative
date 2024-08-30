@@ -24,7 +24,7 @@ export default function Cart({ navigation }) {
   const totalAmt = roundOff + price;
 
   const handleOrder = () => {
-    navigation.navigate("Order Summary");
+    navigation.navigate("Order Summary", { totalAmt });
   };
 
   useEffect(() => {
@@ -35,11 +35,15 @@ export default function Cart({ navigation }) {
           const parsedCart = JSON.parse(storedCart);
           setCart(parsedCart);
           // Calculate total price
-          const total = parsedCart.reduce((sum, item) => sum + item.price, 0);
+          const total = parsedCart.reduce(
+            (sum, item) => sum + item?.price * item?.quantity,
+            0
+          );
           //reduce method: helps Cal total price of items in array
           //sum: Holds the result initially 0 = Accumulator
           //item: current element of array that gets added to sum and updates it
           setPrice(total);
+          console.log(parsedCart);
         } else {
           setPrice(0);
         }
@@ -56,14 +60,14 @@ export default function Cart({ navigation }) {
       const storedCart = await AsyncStorage.getItem("cartData");
       if (storedCart) {
         const parsedCart = JSON.parse(storedCart);
-        
-        const updatedCart = parsedCart.filter(item => item.id !== id);
-        
+
+        const updatedCart = parsedCart.filter((item) => item.id !== id);
+
         // Save the updated cart back to AsyncStorage
         await AsyncStorage.setItem("cartData", JSON.stringify(updatedCart));
-        
+
         setCart(updatedCart);
-  
+
         const total = updatedCart.reduce((sum, item) => sum + item.price, 0);
         setPrice(total);
       }
@@ -71,7 +75,63 @@ export default function Cart({ navigation }) {
       console.log("Error while removing item from cart", error);
     }
   };
-  
+
+  // Increment quantity
+  const increment = async (id) => {
+    try {
+      const storedCartItems = await AsyncStorage.getItem("cartData");
+      if (storedCartItems) {
+        const orerData = JSON.parse(storedCartItems);
+        const updatedCartItems = orerData?.map((item) =>
+          item.id === id ? { ...item, quantity: item?.quantity + 1 } : item
+        );
+        await AsyncStorage.setItem(
+          "cartData",
+          JSON.stringify(updatedCartItems)
+        );
+        setCart(updatedCartItems);
+        const total = updatedCartItems.reduce(
+          (sum, item) => sum + item?.price * item?.quantity,
+          0
+        );
+        setPrice(total);
+        console.log(updatedCartItems);
+      }
+    } catch (error) {
+      console.log("Failed to fetch data.", error);
+    }
+  };
+
+  // Decrement quantity
+  const decrement = async (id) => {
+    try {
+      const storedCartItems = await AsyncStorage.getItem("cartData");
+      if (storedCartItems) {
+        const orerData = JSON.parse(storedCartItems);
+
+        const updatedCartItems = orerData?.map((item) =>
+          item.id === id && item.quantity > 1
+            ? { ...item, quantity: item?.quantity - 1 }
+            : item
+        );
+        await AsyncStorage.setItem(
+          "cartData",
+          JSON.stringify(updatedCartItems)
+        );
+        setCart(updatedCartItems);
+        const total = updatedCartItems.reduce(
+          (sum, item) => sum + item?.price * item?.quantity,
+          0
+        );
+        setPrice(total);
+        console.log(updatedCartItems);
+      }
+    } catch (error) {
+      console.log("Failed to fetch data.", error);
+    }
+    // setCartItems(updatedCartItems);
+    // await AsyncStorage.setItem("cartData", JSON.stringify(updatedCartItems));
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -87,11 +147,23 @@ export default function Cart({ navigation }) {
           <>
             {cart?.map((i) => (
               <View key={i?.id} style={styles.cartItemContainer}>
-                <Image source={i?.img} style={{ width: 100, height: 120 }} />
+                <Image source={i?.img} style={{ width: 120, height: 150 }} />
                 <View style={{ width: 200 }}>
                   <Text style={styles.prdtName}>{i?.prdtName}</Text>
                   <Text style={styles.desc}>{i?.desc}</Text>
                   <Text style={styles.price}>₹{i?.price}</Text>
+
+                  <View style={styles.quantityContainer}>
+                    <TouchableOpacity onPress={() => decrement(i?.id)}>
+                      <Text style={styles.quanSymbol}>--</Text>
+                    </TouchableOpacity>
+                    <Text style={[styles.quanSymbol, styles.quantityNumber]}>
+                      {i?.quantity}
+                    </Text>
+                    <TouchableOpacity onPress={() => increment(i?.id)}>
+                      <Text style={styles.quanSymbol}>+</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
                 <Pressable onPress={() => remove(i?.id)} style={styles.icons}>
                   <Ionicons name="trash-bin" size={20} color={"red"} />
@@ -99,6 +171,7 @@ export default function Cart({ navigation }) {
               </View>
             ))}
 
+            {/*Price Details*/}
             <View style={styles.priceDetailsSection}>
               <Text
                 style={{ fontSize: 17, fontWeight: "bold", color: "#f0c38e" }}
@@ -271,5 +344,27 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: "bold",
     color: "#000",
+  },
+  quantityContainer: {
+    width: "60%",
+    flexDirection: "row",
+    borderWidth: 1,
+    borderColor: "darkgray",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    marginTop: 10,
+    paddingVertical: 7,
+  },
+  quanSymbol: {
+    fontSize: 19,
+    fontWeight: "bold",
+  },
+  quantityNumber: {
+    backgroundColor: "#dfdfdf",
+    paddingHorizontal: 8,
+    borderRadius: 25,
+    paddingVertical: 2,
   },
 });
