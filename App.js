@@ -40,7 +40,7 @@ function TabNavigator({
         const storedCart = await AsyncStorage.getItem("cartData");
         if (storedCart) {
           const parsedCart = JSON.parse(storedCart);
-          setCartItemCount(parsedCart.length)
+          setCartItemCount(parsedCart.length);
         }
       } catch (error) {
         console.log("Error while fetching Data", error);
@@ -48,7 +48,7 @@ function TabNavigator({
     };
 
     fetchCartData();
-  }, []);
+  }, [cartItemCount]);
 
   return (
     <Tab.Navigator
@@ -64,11 +64,11 @@ function TabNavigator({
         tabBarLabelPosition: "below-icon",
         tabBarShowLabel: true,
         tabBarActiveTintColor: "#f0c38e",
-        tabBarInactiveTintColor: "#dfdfdf", 
-        tabBarActiveBackgroundColor: '#312c51',
-        tabBarInactiveBackgroundColor: '#312c51',
-        tabBarLabelStyle: {fontSize: 12, marginBottom: 5},
-        tabBarIconStyle: {marginTop: 5}
+        tabBarInactiveTintColor: "#dfdfdf",
+        tabBarActiveBackgroundColor: "#312c51",
+        tabBarInactiveBackgroundColor: "#312c51",
+        tabBarLabelStyle: { fontSize: 12, marginBottom: 5 },
+        tabBarIconStyle: { marginTop: 5 },
       }}
     >
       <Tab.Screen
@@ -93,15 +93,18 @@ function TabNavigator({
 
       <Tab.Screen
         name="Cart"
-        component={Cart}
         options={{
           tabBarIcon: ({ color }) => (
-            <Ionicons name="cart" size={23} color={color} /> // You can add an icon for this tab if needed
+            <Ionicons name="cart" size={23} color={color} />
           ),
           tabBarBadge: cartItemCount,
-          tabBarBadgeStyle: {marginLeft: 4,}
+          tabBarBadgeStyle: { marginLeft: 4 },
         }}
-      />
+      >
+        {(props) => (
+          <Cart {...props} setCartItemCount={setCartItemCount} />
+        )}
+      </Tab.Screen>
 
       <Tab.Screen
         name="Orders"
@@ -120,7 +123,7 @@ function TabNavigator({
             <Ionicons name="notifications" size={23} color={color} /> // You can add an icon for this tab if needed
           ),
           tabBarBadge: 0,
-          tabBarBadgeStyle: {marginLeft: 2,}
+          tabBarBadgeStyle: { marginLeft: 2 },
         }}
       />
     </Tab.Navigator>
@@ -133,6 +136,7 @@ export default function App() {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [gender, setGender] = useState("");
+  const [cartItemCount, setCartItemCount] = useState(0);
 
   useEffect(() => {
     const checkAuthStatus = async () => {
@@ -143,6 +147,7 @@ export default function App() {
           const storedUsername = await AsyncStorage.getItem("username");
           const storedPassword = await AsyncStorage.getItem("password");
           const storedGender = await AsyncStorage.getItem("gender");
+
           if (storedName && storedUsername && storedPassword && storedGender) {
             setName(storedName);
             setUserName(storedUsername);

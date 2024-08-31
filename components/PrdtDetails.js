@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   ScrollView,
   SafeAreaView,
@@ -10,9 +10,26 @@ import {
   Pressable,
   Alert,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function Prdtdetails({ route }) {
   const { item } = route?.params; // Extract the item from route.params
+  const [cartData, setCartData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const storedCartData = await AsyncStorage.getItem("cartData");
+        if (storedCartData) {
+          setCartData(JSON.parse(storedCartData));
+        }
+      } catch (error) {
+        console.log("Failed to fetch data.", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleAddToCart = async () => {
     try {
@@ -24,19 +41,52 @@ export default function Prdtdetails({ route }) {
       cartItems.push(item);
       await AsyncStorage.setItem("cartData", JSON.stringify(cartItems));
 
+      setCartData(cartItems);
+
       Alert.alert("Item Added", `${item.prdtName} successfully added to cart.`);
     } catch (error) {
-      console.log(
-        "Error Occured while adding Data to AsyncStorage",
-        error
-      );
+      console.log("Error Occured while adding Data to AsyncStorage", error);
     }
   };
 
   return (
     <View style={{ flex: 1 }}>
       <ScrollView style={styles.container}>
-        <Text style={styles.topic}>Product Details</Text>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Text style={styles.topic}>Product Details</Text>
+          <View style={{ marginRight: 10, position: "relative" }}>
+            <Ionicons name="cart" size={32} color={"#fff"} />
+            <View
+              style={{
+                backgroundColor: "red",
+                borderRadius: 20,
+                position: "absolute",
+                paddingHorizontal: 6,
+                right: -8,
+                top: -5,
+              }}
+            >
+              <Text
+                style={{
+                  color: "#fff",
+                  textAlign: "center",
+                  fontSize: 15,
+                  fontWeight: 600,
+                }}
+              >
+                {cartData.length}
+              </Text>
+            </View>
+          </View>
+        </View>
+
         <View style={styles.detailsContainer}>
           <View style={{ flexDirection: "row", justifyContent: "center" }}>
             <Image source={item.img} style={styles.image} />

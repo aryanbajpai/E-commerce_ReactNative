@@ -14,7 +14,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 const mtCart = require("../assets/mtCart.png");
 
-export default function Cart({ navigation }) {
+export default function Cart({ navigation, setCartItemCount }) {
   const [cart, setCart] = useState([]);
   const [price, setPrice] = useState(0);
 
@@ -34,6 +34,7 @@ export default function Cart({ navigation }) {
         if (storedCart) {
           const parsedCart = JSON.parse(storedCart);
           setCart(parsedCart);
+
           // Calculate total price
           const total = parsedCart.reduce(
             (sum, item) => sum + item?.price * item?.quantity,
@@ -43,7 +44,6 @@ export default function Cart({ navigation }) {
           //sum: Holds the result initially 0 = Accumulator
           //item: current element of array that gets added to sum and updates it
           setPrice(total);
-          console.log(parsedCart);
         } else {
           setPrice(0);
         }
@@ -67,6 +67,7 @@ export default function Cart({ navigation }) {
         await AsyncStorage.setItem("cartData", JSON.stringify(updatedCart));
 
         setCart(updatedCart);
+        setCartItemCount(updatedCart.length)
 
         const total = updatedCart.reduce((sum, item) => sum + item.price, 0);
         setPrice(total);
