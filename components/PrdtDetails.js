@@ -12,9 +12,10 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function Prdtdetails({ route }) {
+export default function Prdtdetails({ navigation, route }) {
   const { item } = route?.params; // Extract the item from route.params
   const [cartData, setCartData] = useState([]);
+  const [orderData, setOrderData] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,6 +49,23 @@ export default function Prdtdetails({ route }) {
       console.log("Error Occured while adding Data to AsyncStorage", error);
     }
   };
+
+  // const handleBuyNow = async (id) => {
+  //   try {
+  //     //get initial Cart data from Storage
+  //     let oderedData = await AsyncStorage.getItem("order");
+  //     let orderItems = oderedData ? JSON.parse(oderedData) : [];
+
+  //     //Add new Item
+  //     orderItems.push(item);
+  //     await AsyncStorage.setItem("order", JSON.stringify(orderItems));
+
+  //     setOrderData(orderItems);
+  //     navigation.navigate("Order Summary", { orderItems });
+  //   } catch (error) {
+  //     console.log("Error Occured while adding Data to AsyncStorage", error);
+  //   }
+  // };
 
   return (
     <View style={{ flex: 1 }}>
@@ -89,15 +107,15 @@ export default function Prdtdetails({ route }) {
 
         <View style={styles.detailsContainer}>
           <View style={{ flexDirection: "row", justifyContent: "center" }}>
-            <Image source={item.img} style={styles.image} />
+            <Image source={item?.img} style={styles.image} />
           </View>
 
           <View style={styles.details}>
-            <Text style={styles.prdtTitle}>{item.prdtName}</Text>
-            <Text style={styles.prdtDesc}>{item.desc}</Text>
+            <Text style={styles.prdtTitle}>{item?.prdtName}</Text>
+            <Text style={styles.prdtDesc}>{item?.desc}</Text>
             <Text style={styles.price}>
-              ₹{item.price}{" "}
-              <Text style={styles.discount}>({item.discountPerc}% OFF)</Text>
+              ₹{item?.price}{" "}
+              <Text style={styles.discount}>({item?.discountPerc}% OFF)</Text>
             </Text>
           </View>
         </View>

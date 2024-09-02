@@ -12,7 +12,7 @@ import {
 } from "react-native";
 
 export default function OrderSummary({ navigation, route }) {
-  const { totalAmt } = route?.params;
+  const { totalAmt, roundOff, price, orderItems } = route?.params;
 
   const [address, setAddress] = useState([]);
   const [cartItems, setCartItems] = useState([]);
@@ -106,11 +106,83 @@ export default function OrderSummary({ navigation, route }) {
                 </Text>
                 <Text style={{ fontSize: 19, fontWeight: 500, marginTop: 5 }}>
                   Quan:{" "}
-                  <Text style={{ fontWeight: "bold", fontSize: 21 }}>{data?.quantity}</Text>
+                  <Text style={{ fontWeight: "bold", fontSize: 21 }}>
+                    {data?.quantity}
+                  </Text>
                 </Text>
               </View>
             </View>
           ))}
+        </View>
+
+        {/*Price Details*/}
+        <View style={styles.priceDetailsSection}>
+          <Text style={{ fontSize: 17, fontWeight: "bold", color: "#f0c38e" }}>
+            Price Details
+          </Text>
+
+          <View style={styles.billing}>
+            <Text style={styles.commonTextStyle}>Items</Text>
+            <Text
+              style={[
+                styles.commonTextStyle,
+                { color: "#f0c38e", fontWeight: "bold" },
+              ]}
+            >
+              {cartItems.length}
+            </Text>
+          </View>
+
+          <View style={styles.billing}>
+            <Text style={styles.commonTextStyle}>Platform Charge (+5%)</Text>
+            <Text style={[styles.commonTextStyle, { color: "lightgreen" }]}>
+              +{roundOff}
+            </Text>
+          </View>
+
+          <View style={styles.billing}>
+            <Text style={styles.commonTextStyle}>Price</Text>
+            <Text style={[styles.commonTextStyle, { color: "lightgreen" }]}>
+              +{price}
+            </Text>
+          </View>
+
+          <View style={styles.billing}>
+            <Text style={styles.commonTextStyle}>Delivery Charge</Text>
+            <Text style={[styles.commonTextStyle, { color: "lightgreen" }]}>
+              Free
+            </Text>
+          </View>
+
+          <View
+            style={{
+              backgroundColor: "darkgray",
+              height: 1,
+              marginVertical: 8,
+            }}
+          ></View>
+
+          <View
+            style={[
+              styles.billing,
+              {
+                backgroundColor: "#48426d",
+                paddingVertical: 10,
+                borderRadius: 10,
+              },
+            ]}
+          >
+            <Text
+              style={{ fontSize: 17, fontWeight: "bold", color: "#f0c38e" }}
+            >
+              Total
+            </Text>
+            <Text
+              style={{ fontSize: 17, fontWeight: "bold", color: "#f0c38e" }}
+            >
+              ₹{totalAmt}
+            </Text>
+          </View>
         </View>
       </ScrollView>
 
@@ -228,7 +300,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "bold",
     fontStyle: "italic",
-    color: '#312c51'
+    color: "#312c51",
   },
   continueBtn: {
     backgroundColor: "#312c51",
@@ -241,5 +313,24 @@ const styles = StyleSheet.create({
     color: "#f0c38e",
     fontWeight: "bold",
     fontSize: 18,
+  },
+  priceDetailsSection: {
+    marginVertical: 8,
+    padding: 10,
+    borderRadius: 8,
+    backgroundColor: "#312c51",
+    borderWidth: 1,
+    borderColor: "darkgray",
+    marginHorizontal: 12,
+  },
+  billing: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginVertical: 3,
+    paddingHorizontal: 10,
+  },
+  commonTextStyle: {
+    fontSize: 16,
+    color: "#fff",
   },
 });

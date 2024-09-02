@@ -24,7 +24,7 @@ export default function Cart({ navigation, setCartItemCount }) {
   const totalAmt = roundOff + price;
 
   const handleOrder = () => {
-    navigation.navigate("Order Summary", { totalAmt });
+    navigation.navigate("Order Summary", { totalAmt, roundOff, price });
   };
 
   useEffect(() => {
@@ -67,7 +67,7 @@ export default function Cart({ navigation, setCartItemCount }) {
         await AsyncStorage.setItem("cartData", JSON.stringify(updatedCart));
 
         setCart(updatedCart);
-        setCartItemCount(updatedCart.length)
+        setCartItemCount(updatedCart.length);
 
         const total = updatedCart.reduce((sum, item) => sum + item.price, 0);
         setPrice(total);
@@ -130,8 +130,6 @@ export default function Cart({ navigation, setCartItemCount }) {
     } catch (error) {
       console.log("Failed to fetch data.", error);
     }
-    // setCartItems(updatedCartItems);
-    // await AsyncStorage.setItem("cartData", JSON.stringify(updatedCartItems));
   };
 
   return (
