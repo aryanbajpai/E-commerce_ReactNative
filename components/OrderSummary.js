@@ -12,10 +12,11 @@ import {
 } from "react-native";
 
 export default function OrderSummary({ navigation, route }) {
-  const { totalAmt, roundOff, price, orderItems } = route?.params;
+  const { totalAmt, roundOff, price, orderItems, isBuyNow } = route?.params;
 
   const [address, setAddress] = useState([]);
   const [cartItems, setCartItems] = useState([]);
+  const [orderItem, setOrderItem] = useState([]);
 
   const handleAddress = async () => {
     navigation.navigate("Add Address");
@@ -45,10 +46,29 @@ export default function OrderSummary({ navigation, route }) {
     }
   };
 
+  const fetchOrderData = async () => {
+    try {
+      const storedOrderItem = await AsyncStorage.getItem("orderData");
+      if (storedOrderItem) {
+        setOrderItem(JSON.parse(storedOrderItem));
+      }
+    } catch (error) {
+      console.log("Failed to fetch data.", error);
+    }
+  };
+
+  const goToPayments = () => {
+    navigation.navigate("Payment", { totalAmt });
+  }
+
   useFocusEffect(
     useCallback(() => {
       fetchAddressData(); // Fetch address when the screen is focused
-      fetchCartData();
+      if (isBuyNow) {
+        fetchOrderData();
+      } else {
+        fetchCartData();
+      }
     }, [])
   );
 
@@ -90,29 +110,63 @@ export default function OrderSummary({ navigation, route }) {
 
         {/*ITEMS*/}
         <View style={styles.itemsContainer}>
-          {cartItems?.map((data) => (
-            <View key={data?.id} style={styles.itemCard}>
-              <View>
-                <Image source={data?.img} style={styles.itemImage} />
-              </View>
+          {isBuyNow ? (
+            <>
+              {orderItem?.map((data) => (
+                <View key={data?.id} style={styles.itemCard}>
+                  <View>
+                    <Image source={data?.img} style={styles.itemImage} />
+                  </View>
 
-              <View style={styles.itemDetails}>
-                <Text style={styles.itemName}>{data?.prdtName}</Text>
-                <Text style={styles.itemPrice}>
-                  ₹{data?.price}{" "}
-                  <Text style={styles.itemDiscount}>
-                    ({data?.discountPerc}% OFF)
-                  </Text>
-                </Text>
-                <Text style={{ fontSize: 19, fontWeight: 500, marginTop: 5 }}>
-                  Quan:{" "}
-                  <Text style={{ fontWeight: "bold", fontSize: 21 }}>
-                    {data?.quantity}
-                  </Text>
-                </Text>
-              </View>
-            </View>
-          ))}
+                  <View style={styles.itemDetails}>
+                    <Text style={styles.itemName}>{data?.prdtName}</Text>
+                    <Text style={styles.itemPrice}>
+                      ₹{data?.price}{" "}
+                      <Text style={styles.itemDiscount}>
+                        ({data?.discountPerc}% OFF)
+                      </Text>
+                    </Text>
+                    <Text
+                      style={{ fontSize: 19, fontWeight: 500, marginTop: 5 }}
+                    >
+                      Quan:{" "}
+                      <Text style={{ fontWeight: "bold", fontSize: 21 }}>
+                        {data?.quantity}
+                      </Text>
+                    </Text>
+                  </View>
+                </View>
+              ))}
+            </>
+          ) : (
+            <>
+              {cartItems?.map((data) => (
+                <View key={data?.id} style={styles.itemCard}>
+                  <View>
+                    <Image source={data?.img} style={styles.itemImage} />
+                  </View>
+
+                  <View style={styles.itemDetails}>
+                    <Text style={styles.itemName}>{data?.prdtName}</Text>
+                    <Text style={styles.itemPrice}>
+                      ₹{data?.price}{" "}
+                      <Text style={styles.itemDiscount}>
+                        ({data?.discountPerc}% OFF)
+                      </Text>
+                    </Text>
+                    <Text
+                      style={{ fontSize: 19, fontWeight: 500, marginTop: 5 }}
+                    >
+                      Quan:{" "}
+                      <Text style={{ fontWeight: "bold", fontSize: 21 }}>
+                        {data?.quantity}
+                      </Text>
+                    </Text>
+                  </View>
+                </View>
+              ))}
+            </>
+          )}
         </View>
 
         {/*Price Details*/}
@@ -189,7 +243,7 @@ export default function OrderSummary({ navigation, route }) {
       {/*DONE */}
       <View style={styles.continueContainer}>
         <Text style={styles.priceText}>₹{totalAmt}</Text>
-        <TouchableOpacity style={styles.continueBtn}>
+        <TouchableOpacity style={styles.continueBtn} onPress={goToPayments}>
           <Text style={styles.continueBtnText}>Continue</Text>
         </TouchableOpacity>
       </View>

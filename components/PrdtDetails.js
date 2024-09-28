@@ -15,7 +15,11 @@ import { Ionicons } from "@expo/vector-icons";
 export default function Prdtdetails({ navigation, route }) {
   const { item } = route?.params; // Extract the item from route.params
   const [cartData, setCartData] = useState([]);
-  const [orderData, setOrderData] = useState([]);
+
+  const price = item?.price;
+  const platformChrg = price * 0.05;
+  const roundOff = parseFloat(platformChrg.toFixed(2));
+  const totalAmt = roundOff + price;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,22 +54,15 @@ export default function Prdtdetails({ navigation, route }) {
     }
   };
 
-  // const handleBuyNow = async (id) => {
-  //   try {
-  //     //get initial Cart data from Storage
-  //     let oderedData = await AsyncStorage.getItem("order");
-  //     let orderItems = oderedData ? JSON.parse(oderedData) : [];
-
-  //     //Add new Item
-  //     orderItems.push(item);
-  //     await AsyncStorage.setItem("order", JSON.stringify(orderItems));
-
-  //     setOrderData(orderItems);
-  //     navigation.navigate("Order Summary", { orderItems });
-  //   } catch (error) {
-  //     console.log("Error Occured while adding Data to AsyncStorage", error);
-  //   }
-  // };
+  const handleBuyNow = async () => {
+    try {
+      await AsyncStorage.setItem("orderData", JSON.stringify([item]));
+      navigation.navigate("Order Summary", { isBuyNow: true, totalAmt, roundOff, price});
+    } catch (error) {
+      console.log("Error occurred while storing DATA to Storage: ", error);
+    }
+  };
+  
 
   return (
     <View style={{ flex: 1 }}>
@@ -126,7 +123,7 @@ export default function Prdtdetails({ navigation, route }) {
           <Text style={styles.commonText}>Add to cart</Text>
         </Pressable>
 
-        <Pressable style={styles.buy}>
+        <Pressable style={styles.buy} onPress={handleBuyNow}>
           <Text style={styles.commonText}>Buy now</Text>
         </Pressable>
       </View>
