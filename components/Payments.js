@@ -59,7 +59,16 @@ export default function Payment({ navigation, route }) {
                 </Text>
               </View>
               <Pressable onPress={() => toggleGateway(index)}>
-                <Ionicons name="chevron-down" size={30} color={"#f1f1f1"} />
+                <Ionicons
+                  name="chevron-down"
+                  size={30}
+                  color={"#f1f1f1"}
+                  style={{
+                    transform: [
+                      { rotate: expandedIndex === index ? "180deg" : "0deg" },
+                    ], // Rotate icon based on state
+                  }}
+                />
               </Pressable>
             </View>
             {expandedIndex === index && (
@@ -72,7 +81,11 @@ export default function Payment({ navigation, route }) {
                   borderRadius: 8,
                 }}
               >
-                <Text style={{fontSize: 20, fontWeight: 'bold', color: '#f0c38e'}}>Card Number</Text>
+                <Text
+                  style={{ fontSize: 20, fontWeight: "bold", color: "#f0c38e" }}
+                >
+                  Card Number
+                </Text>
                 <TextInput
                   placeholder="XXXX XXXX XXXX XXXX"
                   placeholderTextColor="#bfbfbf"
@@ -84,11 +97,11 @@ export default function Payment({ navigation, route }) {
                       textAlign: "center",
                       fontSize: 19,
                       fontWeight: "bold",
-                      backgroundColor: '#f0c38e',
+                      backgroundColor: "#f0c38e",
                       paddingVertical: 8,
                       borderRadius: 7,
                       marginTop: 6,
-                      color: '#48426d'
+                      color: "#48426d",
                     }}
                   >
                     Pay ₹{totalAmt}
