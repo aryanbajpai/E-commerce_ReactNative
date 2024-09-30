@@ -85,7 +85,7 @@ export default function Payment({ navigation, route }) {
                   {gateway.label}
                 </Text>
               </View>
-              <Pressable >
+              <Pressable onPress={() => toggleGateway(index)}>
                 <Ionicons
                   name="chevron-down"
                   size={30}
@@ -275,7 +275,6 @@ export default function Payment({ navigation, route }) {
                     </TouchableOpacity>
                   </View>
                 )}
-                {/* Add logic for other gateways here */}
               </View>
             )}
           </View>

@@ -103,9 +103,7 @@ function TabNavigator({
           tabBarBadgeStyle: { marginLeft: 4 },
         }}
       >
-        {(props) => (
-          <Cart {...props} setCartItemCount={setCartItemCount} />
-        )}
+        {(props) => <Cart {...props} setCartItemCount={setCartItemCount} />}
       </Tab.Screen>
 
       <Tab.Screen
