@@ -6,6 +6,7 @@ import {
   Pressable,
   TouchableOpacity,
   TextInput,
+  Alert,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
@@ -36,6 +37,26 @@ export default function Payment({ navigation, route }) {
     setExpandedIndex(expandedIndex === index ? null : index);
   };
 
+  const placeOrder = () => {
+    Alert.alert(
+      'Confirm cash on delivery',
+      'Are you sure you want to confirm your order?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Order cancelled'),
+          style: 'cancel',
+        },
+        {
+          text: 'Confirm',
+          onPress: () => console.log('Order confirmed'),
+          style: 'default',
+        },
+      ],
+      { cancelable: false } // Optionally prevent closing on outside tap
+    );
+  };
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.totalAmtContainer}>
@@ -53,7 +74,7 @@ export default function Payment({ navigation, route }) {
                 expandedIndex === index ? "#312c51" : "transparent",
             }}
           >
-            <View style={styles.gateways}>
+            <TouchableOpacity style={styles.gateways} onPress={() => toggleGateway(index)}>
               <View
                 style={{ flexDirection: "row", alignItems: "center", gap: 10 }}
               >
@@ -64,7 +85,7 @@ export default function Payment({ navigation, route }) {
                   {gateway.label}
                 </Text>
               </View>
-              <Pressable onPress={() => toggleGateway(index)}>
+              <Pressable >
                 <Ionicons
                   name="chevron-down"
                   size={30}
@@ -76,7 +97,7 @@ export default function Payment({ navigation, route }) {
                   }}
                 />
               </Pressable>
-            </View>
+            </TouchableOpacity>
             {expandedIndex === index && (
               <View
                 style={{
@@ -184,7 +205,7 @@ export default function Payment({ navigation, route }) {
                     </TouchableOpacity>
                   </View>
                 )}
-                {gateway.icon === 'wallet' && (
+                {gateway.icon === "wallet" && (
                   <>
                     {upi.map((upi) => (
                       <>
@@ -230,6 +251,29 @@ export default function Payment({ navigation, route }) {
                       </>
                     ))}
                   </>
+                )}
+                {gateway.icon === "cash" && (
+                  <View>
+                    <Text style={{color: '#fff', fontSize: 17, marginBottom: 3}}>
+                      Due to handling costs, a nominal fee of ₹7 will be charged
+                    </Text>
+                    <TouchableOpacity onPress={placeOrder}>
+                      <Text
+                        style={{
+                          textAlign: "center",
+                          fontSize: 19,
+                          fontWeight: "bold",
+                          backgroundColor: "#f0c38e",
+                          paddingVertical: 8,
+                          borderRadius: 7,
+                          marginTop: 6,
+                          color: "#48426d",
+                        }}
+                      >
+                        Place Order
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
                 )}
                 {/* Add logic for other gateways here */}
               </View>
