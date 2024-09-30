@@ -17,6 +17,7 @@ import { Ionicons } from "@expo/vector-icons";
 import OrderSummary from "./components/OrderSummary";
 import AddressForm from "./components/AddressForm";
 import Payment from "./components/Payments";
+import SelectBank from "./components/SelectBank";
 
 const maleProfile = require("./assets/male.png");
 const femaleProfile = require("./assets/female.png");
@@ -357,6 +358,7 @@ export default function App() {
         <Stack.Screen name="Order Summary" component={OrderSummary} />
         <Stack.Screen name="Add Address" component={AddressForm} />
         <Stack.Screen name="Payment" component={Payment} />
+        <Stack.Screen name="Select Bank" component={SelectBank} />
       </Stack.Navigator>
     </NavigationContainer>
   );

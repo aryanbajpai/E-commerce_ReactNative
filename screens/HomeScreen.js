@@ -15,7 +15,7 @@ export default function HomeScreen({ name }) {
         containerStyle={{ backgroundColor: "#48426d", borderColor: "#48426d" }}
         inputContainerStyle={{ backgroundColor: "#312c51" }}
         inputStyle={{ color: "white" }}
-        placeholderTextColor={{ color: "#fff" }}
+        placeholderTextColor={"#fff"}
         round
         value={searchValue}
         onChangeText={setSearchValue}

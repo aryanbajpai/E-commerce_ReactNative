@@ -13,6 +13,13 @@ import { useState } from "react";
 export default function Payment({ navigation, route }) {
   const { totalAmt } = route?.params || { totalAmt: 0 }; // Default to 0 if not provided
   const [expandedIndex, setExpandedIndex] = useState(null);
+  const [selectedUpi, setSelectedUpi] = useState(null);
+
+  const upi = [
+    { id: 1, name: "Google Pay" },
+    { id: 2, name: "PhonePe" },
+    { id: 3, name: "Paytm" },
+  ];
 
   const gateways = [
     { icon: "card", label: "Credit / Debit / ATM Card" },
@@ -20,6 +27,10 @@ export default function Payment({ navigation, route }) {
     { icon: "wallet", label: "UPI" },
     { icon: "cash", label: "Cash on Delivery" },
   ];
+
+  const addBank = () => {
+    navigation.navigate("Select Bank", { totalAmt });
+  };
 
   const toggleGateway = (index) => {
     setExpandedIndex(expandedIndex === index ? null : index);
@@ -92,8 +103,14 @@ export default function Payment({ navigation, route }) {
                       placeholderTextColor="#bfbfbf"
                       style={styles.inputField}
                     />
-                    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between',}}>
-                      <View style={{width:'48.5%'}}>
+                    <View
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <View style={{ width: "48.5%" }}>
                         <Text
                           style={{
                             fontSize: 20,
@@ -110,7 +127,7 @@ export default function Payment({ navigation, route }) {
                         />
                       </View>
 
-                      <View style={{width:'48.5%'}}>
+                      <View style={{ width: "48.5%" }}>
                         <Text
                           style={{
                             fontSize: 20,
@@ -146,6 +163,73 @@ export default function Payment({ navigation, route }) {
                       </Text>
                     </TouchableOpacity>
                   </View>
+                )}
+                {gateway.icon === "business" && (
+                  <View>
+                    <TouchableOpacity onPress={addBank}>
+                      <Text
+                        style={{
+                          textAlign: "center",
+                          fontSize: 19,
+                          fontWeight: "bold",
+                          backgroundColor: "#f0c38e",
+                          paddingVertical: 8,
+                          borderRadius: 7,
+                          marginTop: 6,
+                          color: "#48426d",
+                        }}
+                      >
+                        Select Bank
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
+                {gateway.icon === 'wallet' && (
+                  <>
+                    {upi.map((upi) => (
+                      <>
+                        <TouchableOpacity
+                          key={upi.id}
+                          style={styles.radioButton}
+                          onPress={() => setSelectedUpi(upi.id)}
+                        >
+                          <View
+                            style={{
+                              display: "flex",
+                              flexDirection: "row",
+                              gap: 5,
+                            }}
+                          >
+                            <View style={styles.radioCircle}>
+                              {selectedUpi === upi.id && (
+                                <View style={styles.selectedCircle} />
+                              )}
+                            </View>
+                            <Text style={styles.bankName}>{upi.name}</Text>
+                          </View>
+                        </TouchableOpacity>
+
+                        {selectedUpi === upi.id && (
+                          <TouchableOpacity>
+                            <Text
+                              style={{
+                                textAlign: "center",
+                                fontSize: 19,
+                                fontWeight: "bold",
+                                backgroundColor: "#f0c38e",
+                                paddingVertical: 8,
+                                borderRadius: 7,
+                                marginTop: 6,
+                                color: "#48426d",
+                              }}
+                            >
+                              Pay ₹{totalAmt}
+                            </Text>
+                          </TouchableOpacity>
+                        )}
+                      </>
+                    ))}
+                  </>
                 )}
                 {/* Add logic for other gateways here */}
               </View>
@@ -194,5 +278,32 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     backgroundColor: "#312c51",
     color: "#fff",
+  },
+  radioButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginVertical: 5,
+    padding: 10,
+  },
+  radioCircle: {
+    height: 24,
+    width: 24,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 10,
+  },
+  selectedCircle: {
+    height: 12,
+    width: 12,
+    borderRadius: 6,
+    backgroundColor: "#f0c38e",
+  },
+  bankName: {
+    color: "#fff",
+    fontSize: 18,
   },
 });
