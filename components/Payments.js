@@ -11,8 +11,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 
 export default function Payment({ navigation, route }) {
-  const { totalAmt } = route?.params;
-  const [expandedIndex, setExpandedIndex] = useState(null); // Track which gateway is expanded
+  const { totalAmt } = route?.params || { totalAmt: 0 }; // Default to 0 if not provided
+  const [expandedIndex, setExpandedIndex] = useState(null);
 
   const gateways = [
     { icon: "card", label: "Credit / Debit / ATM Card" },
@@ -22,7 +22,7 @@ export default function Payment({ navigation, route }) {
   ];
 
   const toggleGateway = (index) => {
-    setExpandedIndex(expandedIndex === index ? null : index); // Toggle the expanded state
+    setExpandedIndex(expandedIndex === index ? null : index);
   };
 
   return (
@@ -33,29 +33,24 @@ export default function Payment({ navigation, route }) {
       </View>
 
       <View>
-        {gateways.map((ways, index) => (
+        {gateways.map((gateway, index) => (
           <View
             key={index}
             style={{
               paddingVertical: 15,
               backgroundColor:
-                expandedIndex === index ? "#312c51" : "transparent", // Conditional background color
+                expandedIndex === index ? "#312c51" : "transparent",
             }}
           >
             <View style={styles.gateways}>
               <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  gap: 10,
-                }}
+                style={{ flexDirection: "row", alignItems: "center", gap: 10 }}
               >
-                <Ionicons name={ways.icon} size={30} color={"#f1f1f1"} />
+                <Ionicons name={gateway.icon} size={30} color={"#f1f1f1"} />
                 <Text
                   style={{ color: "#f1f1f1", fontSize: 20, fontWeight: "bold" }}
                 >
-                  {ways.label}
+                  {gateway.label}
                 </Text>
               </View>
               <Pressable onPress={() => toggleGateway(index)}>
@@ -66,7 +61,7 @@ export default function Payment({ navigation, route }) {
                   style={{
                     transform: [
                       { rotate: expandedIndex === index ? "180deg" : "0deg" },
-                    ], // Rotate icon based on state
+                    ],
                   }}
                 />
               </Pressable>
@@ -81,32 +76,78 @@ export default function Payment({ navigation, route }) {
                   borderRadius: 8,
                 }}
               >
-                <Text
-                  style={{ fontSize: 20, fontWeight: "bold", color: "#f0c38e" }}
-                >
-                  Card Number
-                </Text>
-                <TextInput
-                  placeholder="XXXX XXXX XXXX XXXX"
-                  placeholderTextColor="#bfbfbf"
-                  style={styles.inputField}
-                />
-                <TouchableOpacity>
-                  <Text
-                    style={{
-                      textAlign: "center",
-                      fontSize: 19,
-                      fontWeight: "bold",
-                      backgroundColor: "#f0c38e",
-                      paddingVertical: 8,
-                      borderRadius: 7,
-                      marginTop: 6,
-                      color: "#48426d",
-                    }}
-                  >
-                    Pay ₹{totalAmt}
-                  </Text>
-                </TouchableOpacity>
+                {gateway.icon === "card" && (
+                  <View>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        fontWeight: "bold",
+                        color: "#f0c38e",
+                      }}
+                    >
+                      Card Number
+                    </Text>
+                    <TextInput
+                      placeholder="XXXX XXXX XXXX XXXX"
+                      placeholderTextColor="#bfbfbf"
+                      style={styles.inputField}
+                    />
+                    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between',}}>
+                      <View style={{width:'48.5%'}}>
+                        <Text
+                          style={{
+                            fontSize: 20,
+                            fontWeight: "bold",
+                            color: "#f0c38e",
+                          }}
+                        >
+                          Expiration Date
+                        </Text>
+                        <TextInput
+                          placeholder="MM/YY"
+                          placeholderTextColor="#bfbfbf"
+                          style={styles.inputField}
+                        />
+                      </View>
+
+                      <View style={{width:'48.5%'}}>
+                        <Text
+                          style={{
+                            fontSize: 20,
+                            fontWeight: "bold",
+                            color: "#f0c38e",
+                          }}
+                        >
+                          CVV
+                        </Text>
+                        <TextInput
+                          placeholder="XXX"
+                          placeholderTextColor="#bfbfbf"
+                          style={styles.inputField}
+                          secureTextEntry // Optionally hide the CVV input
+                        />
+                      </View>
+                    </View>
+
+                    <TouchableOpacity>
+                      <Text
+                        style={{
+                          textAlign: "center",
+                          fontSize: 19,
+                          fontWeight: "bold",
+                          backgroundColor: "#f0c38e",
+                          paddingVertical: 8,
+                          borderRadius: 7,
+                          marginTop: 6,
+                          color: "#48426d",
+                        }}
+                      >
+                        Pay ₹{totalAmt}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
+                {/* Add logic for other gateways here */}
               </View>
             )}
           </View>
