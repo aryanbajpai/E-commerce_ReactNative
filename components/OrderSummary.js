@@ -57,7 +57,7 @@ export default function OrderSummary({ navigation, route }) {
   };
 
   const goToPayments = () => {
-    if(isBuyNow){
+    if (isBuyNow) {
       navigation.navigate("Payment", { totalAmt, orderItem, cartItems: [] });
     } else {
       navigation.navigate("Payment", { totalAmt, orderItem: [], cartItems });
@@ -176,14 +176,25 @@ export default function OrderSummary({ navigation, route }) {
 
           <View style={styles.billing}>
             <Text style={styles.commonTextStyle}>Items</Text>
-            <Text
-              style={[
-                styles.commonTextStyle,
-                { color: "#f0c38e", fontWeight: "bold" },
-              ]}
-            >
-              {cartItems.length}
-            </Text>
+            {orderItem.length === 0 ? (
+              <Text
+                style={[
+                  styles.commonTextStyle,
+                  { color: "#f0c38e", fontWeight: "bold" },
+                ]}
+              >
+                {cartItems.length}
+              </Text>
+            ) : (
+              <Text
+                style={[
+                  styles.commonTextStyle,
+                  { color: "#f0c38e", fontWeight: "bold" },
+                ]}
+              >
+                {orderItem.length}
+              </Text>
+            )}
           </View>
 
           <View style={styles.billing}>
