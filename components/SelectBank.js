@@ -3,7 +3,6 @@ import {
   View,
   Text,
   ScrollView,
-  SafeAreaView,
   StyleSheet,
   TouchableOpacity,
   Image,
@@ -38,8 +37,6 @@ export default function SelectBank({ navigation, route }) {
         inputStyle={{ color: "white" }}
         placeholderTextColor={"#fff"}
         round
-        // value={searchValue}
-        // onChangeText={setSearchValue}
       />
 
       <View>

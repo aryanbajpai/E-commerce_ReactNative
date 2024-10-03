@@ -14,8 +14,6 @@ const profilePic = require("../assets/profilrPic.png");
 export default function ProfileScreen({
   name,
   username,
-  password,
-  navigation,
   gender,
   onLogOut,
 }) {
@@ -54,7 +52,6 @@ export default function ProfileScreen({
           <Text style={styles.userDetailsText}>
             Gender: <Text style={{ color: "#dfdfdf" }}>{gender}</Text>
           </Text>
-          {/* <Text style={styles.userDetailsText}>Password: <Text style={{color: '#dfdfdf'}}>{password}</Text></Text> */}
         </View>
       </SafeAreaView>
     </ScrollView>

@@ -3,7 +3,6 @@ import { useFocusEffect } from "@react-navigation/native";
 import { useCallback, useState } from "react";
 import {
   ScrollView,
-  SafeAreaView,
   Text,
   View,
   StyleSheet,

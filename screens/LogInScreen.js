@@ -15,7 +15,6 @@ import {
 const login = require("../assets/login.png");
 
 export default function LogInScreen({ onLogIn, navigation }) {
-  //   const [name, setName] = useState("");
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
 

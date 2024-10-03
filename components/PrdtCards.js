@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import { prdtArray } from "../DummyData";
 
-
 const PrdtCards = () => {
   const navigation = useNavigation();
   const handlePress = (item) => {

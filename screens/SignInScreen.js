@@ -10,7 +10,6 @@ import {
   TextInput,
   Alert,
   Image,
-  StatusBar,
 } from "react-native";
 
 const login = require("../assets/login.png");

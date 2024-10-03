@@ -2,7 +2,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useEffect, useState } from "react";
 import {
   ScrollView,
-  SafeAreaView,
   Text,
   View,
   Image,
@@ -62,7 +61,6 @@ export default function Prdtdetails({ navigation, route }) {
       console.log("Error occurred while storing DATA to Storage: ", error);
     }
   };
-  
 
   return (
     <View style={{ flex: 1 }}>

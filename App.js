@@ -7,7 +7,6 @@ import ProfileScreen from "./screens/ProfileScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage"; // Import AsyncStorage
 import { Pressable, Text, Image, Alert } from "react-native";
 import LogInScreen from "./screens/LogInScreen";
-import PrdtCards from "./components/PrdtCards";
 import Prdtdetails from "./components/PrdtDetails";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Cart from "./components/Cart";
@@ -18,7 +17,6 @@ import OrderSummary from "./components/OrderSummary";
 import AddressForm from "./components/AddressForm";
 import Payment from "./components/Payments";
 import SelectBank from "./components/SelectBank";
-// import PaymentScreen from "./components/PaymentScreen";
 
 const maleProfile = require("./assets/male.png");
 const femaleProfile = require("./assets/female.png");
@@ -32,7 +30,6 @@ function TabNavigator({
   name,
   username,
   password,
-  navigation,
   gender,
   onLogOut,
 }) {
@@ -137,7 +134,6 @@ export default function App() {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [gender, setGender] = useState("");
-  const [cartItemCount, setCartItemCount] = useState(0);
 
   useEffect(() => {
     const checkAuthStatus = async () => {
@@ -358,9 +354,6 @@ export default function App() {
         <Stack.Screen name="Add Address" component={AddressForm} />
         <Stack.Screen name="Payment" component={Payment} />
         <Stack.Screen name="Select Bank" component={SelectBank} />
-        {/* <Stack.Screen name="Orders" component={Orders} /> */}
-        
-        {/* <Stack.Screen name="Payment Gateway" component={PaymentScreen} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

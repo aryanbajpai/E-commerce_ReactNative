@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, StyleSheet, View, SafeAreaView, ScrollView } from "react-native";
+import { Text, StyleSheet, SafeAreaView,  } from "react-native";
 import { SearchBar } from "react-native-elements";
 import PrdtCards from "../components/PrdtCards";
 
