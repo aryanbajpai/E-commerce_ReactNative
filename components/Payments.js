@@ -10,9 +10,10 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Payment({ navigation, route }) {
-  const { totalAmt } = route?.params || { totalAmt: 0 }; // Default to 0 if not provided
+  const { totalAmt, orderItem, cartItems } = route?.params;
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [selectedUpi, setSelectedUpi] = useState(null);
 
@@ -29,6 +30,81 @@ export default function Payment({ navigation, route }) {
     { icon: "cash", label: "Cash on Delivery" },
   ];
 
+  const [cardNumber, setCardNumber] = useState('');
+  const [expirationDate, setExpirationDate] = useState('');
+  const [cvv, setCvv] = useState('');
+  const [error, setError] = useState('');
+
+  const validateInputs = () => {
+    // Simple validation checks
+    if (cardNumber.length !== 16) {
+      return 'Card number must be 16 digits.';
+    }
+
+    const [month, year] = expirationDate.split('/').map(Number);
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth() + 1;
+    const currentYear = currentDate.getFullYear() % 100; 
+
+    // Expiration date validation
+    if (!month || !year || month < 1 || month > 12) {
+      return 'Expiration date must be MM/YY format.';
+    }
+    if (year < currentYear || (year === currentYear && month < currentMonth)) {
+      return 'Card is expired.';
+    }
+
+    if (cvv.length !== 3) {
+      return 'CVV must be 3 digits.';
+    }
+    return '';
+  };
+
+  const handlePayment = async () => {
+    const validationError = validateInputs();
+  
+    if (validationError) {
+      setError(validationError);
+      Alert.alert('Validation Error', validationError);
+    } else {
+      // Payment successful
+      Alert.alert('Payment Successful', `Paying ₹${totalAmt}`, [
+        {
+          text: 'OK',
+          onPress: async () => {
+            try {
+              // Retrieve existing purchase data from AsyncStorage
+              const purchasedItems = await AsyncStorage.getItem("purchasedItems");
+              const orderData = purchasedItems ? JSON.parse(purchasedItems) : [];
+              let updatedOrderData;
+              const paymentDate = new Date().toISOString();
+  
+              if (cartItems.length > 0) {
+                updatedOrderData = [...orderData, {items: cartItems, date: paymentDate}];
+                await AsyncStorage.removeItem("cartData");
+                Alert.alert('Order Confirmed', 'Your order has been placed successfully.');
+              } else {
+                updatedOrderData = [...orderData, {items: orderItem, date: paymentDate}];
+                Alert.alert('Order Confirmed', 'Your order has been placed successfully.');
+              }
+  
+              // Update purchaseData in AsyncStorage permanently
+              await AsyncStorage.setItem("purchasedItems", JSON.stringify(updatedOrderData));
+            } catch (error) {
+              console.error("Failed to update order data:", error);
+              Alert.alert('Error', 'There was a problem processing your order. Please try again.');
+            }
+  
+            setCardNumber('');
+            setExpirationDate('');
+            setCvv('');
+            navigation.navigate('TrendTrail');
+          },
+        },
+      ]);
+    }
+  };
+  
   const addBank = () => {
     navigation.navigate("Select Bank", { totalAmt });
   };
@@ -98,6 +174,7 @@ export default function Payment({ navigation, route }) {
                 />
               </Pressable>
             </TouchableOpacity>
+
             {expandedIndex === index && (
               <View
                 style={{
@@ -123,6 +200,8 @@ export default function Payment({ navigation, route }) {
                       placeholder="XXXX XXXX XXXX XXXX"
                       placeholderTextColor="#bfbfbf"
                       style={styles.inputField}
+                      value={cardNumber}
+                      onChangeText={setCardNumber}
                     />
                     <View
                       style={{
@@ -145,6 +224,8 @@ export default function Payment({ navigation, route }) {
                           placeholder="MM/YY"
                           placeholderTextColor="#bfbfbf"
                           style={styles.inputField}
+                          value={expirationDate}
+                          onChangeText={setExpirationDate}
                         />
                       </View>
 
@@ -162,24 +243,17 @@ export default function Payment({ navigation, route }) {
                           placeholder="XXX"
                           placeholderTextColor="#bfbfbf"
                           style={styles.inputField}
+                          value={cvv}
+                          onChangeText={setCvv}
                           secureTextEntry // Optionally hide the CVV input
                         />
                       </View>
                     </View>
 
-                    <TouchableOpacity>
-                      <Text
-                        style={{
-                          textAlign: "center",
-                          fontSize: 19,
-                          fontWeight: "bold",
-                          backgroundColor: "#f0c38e",
-                          paddingVertical: 8,
-                          borderRadius: 7,
-                          marginTop: 6,
-                          color: "#48426d",
-                        }}
-                      >
+                    {error ? <Text style={styles.errorText}>{error}</Text> : null}
+
+                    <TouchableOpacity onPress={handlePayment}>
+                      <Text style={styles.payButton}>
                         Pay ₹{totalAmt}
                       </Text>
                     </TouchableOpacity>
@@ -304,6 +378,16 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
   },
+  payButton: {
+    textAlign: 'center',
+    fontSize: 19,
+    fontWeight: 'bold',
+    backgroundColor: '#f0c38e',
+    paddingVertical: 8,
+    borderRadius: 7,
+    marginTop: 6,
+    color: '#48426d',
+  },
   gateways: {
     flexDirection: "row",
     gap: 10,
@@ -321,6 +405,13 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     backgroundColor: "#312c51",
     color: "#fff",
+  },
+  errorText: {
+    color: '#ff2e2e',
+    fontSize: 16,
+    marginVertical: 7,
+    fontWeight: 'bold',
+    fontStyle: 'italic'
   },
   radioButton: {
     flexDirection: "row",

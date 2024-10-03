@@ -358,6 +358,8 @@ export default function App() {
         <Stack.Screen name="Add Address" component={AddressForm} />
         <Stack.Screen name="Payment" component={Payment} />
         <Stack.Screen name="Select Bank" component={SelectBank} />
+        {/* <Stack.Screen name="Orders" component={Orders} /> */}
+        
         {/* <Stack.Screen name="Payment Gateway" component={PaymentScreen} /> */}
       </Stack.Navigator>
     </NavigationContainer>

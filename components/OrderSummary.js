@@ -12,7 +12,7 @@ import {
 } from "react-native";
 
 export default function OrderSummary({ navigation, route }) {
-  const { totalAmt, roundOff, price, orderItems, isBuyNow } = route?.params;
+  const { totalAmt, roundOff, price, isBuyNow } = route?.params;
 
   const [address, setAddress] = useState([]);
   const [cartItems, setCartItems] = useState([]);
@@ -58,7 +58,11 @@ export default function OrderSummary({ navigation, route }) {
   };
 
   const goToPayments = () => {
-    navigation.navigate("Payment", { totalAmt });
+    if(isBuyNow){
+      navigation.navigate("Payment", { totalAmt, orderItem, cartItems: [] });
+    } else {
+      navigation.navigate("Payment", { totalAmt, orderItem: [], cartItems });
+    }
   };
 
   useFocusEffect(
