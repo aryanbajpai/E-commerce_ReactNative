@@ -57,6 +57,10 @@ export default function Payment({ navigation, route }) {
     );
   };
 
+  const paymentProcess = () => {
+    navigation.navigate('Payment Gateway')
+  }
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.totalAmtContainer}>
@@ -231,7 +235,7 @@ export default function Payment({ navigation, route }) {
                         </TouchableOpacity>
 
                         {selectedUpi === upi.id && (
-                          <TouchableOpacity>
+                          <TouchableOpacity onPress={paymentProcess}>
                             <Text
                               style={{
                                 textAlign: "center",

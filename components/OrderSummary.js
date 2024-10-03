@@ -59,7 +59,7 @@ export default function OrderSummary({ navigation, route }) {
 
   const goToPayments = () => {
     navigation.navigate("Payment", { totalAmt });
-  }
+  };
 
   useFocusEffect(
     useCallback(() => {
@@ -80,31 +80,27 @@ export default function OrderSummary({ navigation, route }) {
           <View style={styles.addressContainer}>
             <Text style={styles.addressTitle}>Deliver to: </Text>
 
-            {address.length === 0 ? (
-              <TouchableOpacity
-                style={styles.addressBtn}
-                onPress={handleAddress}
-              >
-                <Text style={styles.addressBtnText}>Add address</Text>
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                style={styles.addressBtn}
-                onPress={handleAddress}
-              >
-                <Text style={styles.addressBtnText}>Change</Text>
-              </TouchableOpacity>
-            )}
+            <TouchableOpacity style={styles.addressBtn} onPress={handleAddress}>
+              <Text style={styles.addressBtnText}>
+                {address && Object.keys(address).length > 0
+                  ? "Change"
+                  : "Add address"}
+              </Text>
+            </TouchableOpacity>
           </View>
 
           <View style={styles.addressDetails}>
             <Text style={styles.addressName}>{address.fullName}</Text>
-            <Text style={styles.addressText}>{address.building},</Text>
-            <Text style={styles.addressText}>{address.road},</Text>
-            <Text style={styles.addressText}>
-              {address.city} {address.pincode}
-            </Text>
-            <Text style={styles.addressText}>{address.phoneNo}</Text>
+            {address && Object.keys(address).length > 0 && (
+              <View>
+                <Text style={styles.addressText}>{address.building},</Text>
+                <Text style={styles.addressText}>{address.road},</Text>
+                <Text style={styles.addressText}>
+                  {address.city} {address.pincode}
+                </Text>
+                <Text style={styles.addressText}>{address.phoneNo}</Text>
+              </View>
+            )}
           </View>
         </View>
 
@@ -188,7 +184,7 @@ export default function OrderSummary({ navigation, route }) {
           </View>
 
           <View style={styles.billing}>
-            <Text style={styles.commonTextStyle}>Platform Charge (+5%)</Text>
+            <Text style={styles.commonTextStyle}>Platform Charge (+2.5%)</Text>
             <Text style={[styles.commonTextStyle, { color: "lightgreen" }]}>
               +{roundOff}
             </Text>

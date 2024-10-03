@@ -35,7 +35,7 @@ export default function SignInScreen({ onSignIn, navigation }) {
         } else {
           setErr("");
           await onSignIn(name, username, password, gender);
-          navigation.navigate("Home");
+          navigation.navigate("TrendTrail");
         }
       } catch (error) {
         Alert.alert(

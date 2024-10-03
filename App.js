@@ -18,6 +18,7 @@ import OrderSummary from "./components/OrderSummary";
 import AddressForm from "./components/AddressForm";
 import Payment from "./components/Payments";
 import SelectBank from "./components/SelectBank";
+// import PaymentScreen from "./components/PaymentScreen";
 
 const maleProfile = require("./assets/male.png");
 const femaleProfile = require("./assets/female.png");
@@ -254,7 +255,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Home"
+        initialRouteName="TrendTrail"
         screenOptions={{
           headerStyle: {
             backgroundColor: "#312c51",
@@ -267,7 +268,7 @@ export default function App() {
         }}
       >
         <Stack.Screen
-          name="Home"
+          name="TrendTrail"
           options={({ navigation }) => ({
             headerRight: () =>
               isSignedIn ? (
@@ -287,7 +288,7 @@ export default function App() {
               ) : (
                 <Pressable
                   style={{
-                    backgroundColor: "#88ffff",
+                    backgroundColor: "#48426d",
                     paddingVertical: 5,
                     paddingHorizontal: 12,
                     borderRadius: 6,
@@ -297,7 +298,7 @@ export default function App() {
                   <Text
                     style={{
                       fontSize: 18,
-                      color: "#106ad2",
+                      color: "#f0c38e",
                       fontWeight: "600",
                     }}
                   >
@@ -357,6 +358,7 @@ export default function App() {
         <Stack.Screen name="Add Address" component={AddressForm} />
         <Stack.Screen name="Payment" component={Payment} />
         <Stack.Screen name="Select Bank" component={SelectBank} />
+        {/* <Stack.Screen name="Payment Gateway" component={PaymentScreen} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
