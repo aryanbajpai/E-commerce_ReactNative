@@ -18,7 +18,7 @@ export default function Cart({ navigation, setCartItemCount }) {
   const [cart, setCart] = useState([]);
   const [price, setPrice] = useState(0);
 
-  const platformChrg = price * 0.05;
+  const platformChrg = price * 0.025;
   const roundOff = parseFloat(platformChrg.toFixed(2));
 
   const totalAmt = roundOff + price;

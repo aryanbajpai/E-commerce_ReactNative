@@ -17,7 +17,7 @@ export default function Prdtdetails({ navigation, route }) {
   const [cartData, setCartData] = useState([]);
 
   const price = item?.price;
-  const platformChrg = price * 0.05;
+  const platformChrg = price * 0.025;
   const roundOff = parseFloat(platformChrg.toFixed(2));
   const totalAmt = roundOff + price;
 
